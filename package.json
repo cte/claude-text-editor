@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "",
   "scripts": {
-    "dev": "dotenvx run -- tsx edit-text.ts"
+    "dev": "dotenvx run -- tsx claude-text-editor.ts"
   },
   "keywords": [],
   "author": "",
