@@ -8,11 +8,6 @@ dist/
 .env*
 !.env.sample
 
-# Logs
-logs
-*.log
-pnpm-debug.log*
-
 # OS
 .DS_Store
 

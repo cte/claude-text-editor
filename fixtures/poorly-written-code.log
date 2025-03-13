@@ -1,0 +1,3035 @@
+
+> claude-text-editor@0.1.0 dev /Users/cte/Documents/claude-text-editor
+> dotenvx run -- tsx claude-text-editor.ts
+
+[38;5;142m[dotenvx@1.38.5] injecting env (1) from .env[39m
+
+🚀 You: I need you to help refactor my ./fixtures/poorly-written-code.ts file. Refactor the code to be more readable and maintainable. Please use the text editor tool to view and modify the file.
+
+🤖 Claude: I'll help you refactor the poorly-written-code.ts file to make it more readable and maintainable. First, let's view the current code to understand what needs to be improved.
+🔧 Executing view command on ./fixtures/poorly-written-code.ts... { command: 'view', path: './fixtures/poorly-written-code.ts' }
+{ filePath: './fixtures/poorly-written-code.ts', viewRange: undefined }
+📋 Tool result: 1: // This file contains a bunch of functions for data processing
+2: // Created on 3/13/2025
+3: 
+4: // Global variables
+5: var data: any[] = [];
+6: var DEBUG = true;
+7: var MAX = 1000;
+8: 
+9: // Function to add data
+10: function add(x: any) {
+11:   // Push the data to the array
+12:   data.push(x);
+13:   // Log if debug is true
+14:   if (DEBUG == true) {
+15:     console.log("Added data: " + x);
+16:   }
+17:   // Return success
+18:   return true;
+19: }
+20: 
+21: // Function to process data
+22: function process_data(d: any) {
+23:   // Check if d is valid
+24:   if (!d) {
+25:     console.log("Error: Invalid data");
+26:     return null;
+27:   }
+28:   
+29:   // Process the data
+30:   let result: any;
+31:   if (typeof d === "number") {
+32:     // If it's a number, multiply by 2
+33:     result = d * 2;
+34:   } else if (typeof d === "string") {
+35:     // If it's a string, convert to uppercase
+36:     result = d.toUpperCase();
+37:   } else if (Array.isArray(d)) {
+38:     // If it's an array, sum all numbers or concatenate strings
+39:     result = 0;
+40:     for (let i = 0; i < d.length; i++) {
+41:       if (typeof d[i] === "number") {
+42:         result += d[i];
+43:       } else if (typeof d[i] === "string") {
+44:         if (result === 0) {
+45:           result = d[i];
+46:         } else {
+47:           result += d[i];
+48:         }
+49:       }
+50:     }
+51:   } else {
+52:     // If it's an object, return the keys
+53:     result = Object.keys(d);
+54:   }
+55:   
+56:   // Log the result if debug is true
+57:   if (DEBUG === true) {
+58:     console.log("Processed data. Result: " + result);
+59:   }
+60:   
+61:   // Return the result
+62:   return result;
+63: }
+64: 
+65: // Function to process all data
+66: function processAllData() {
+67:   // Check if there's data to process
+68:   if (data.length === 0) {
+69:     console.log("No data to process");
+70:     return [];
+71:   }
+72:   
+73:   // Process all data
+74:   let results: any[] = [];
+75:   for (let i = 0; i < data.length; i++) {
+76:     let processed = process_data(data[i]);
+77:     results.push(processed);
+78:   }
+79:   
+80:   // Log the results if debug is true
+81:   if (DEBUG === true) {
+82:     console.log("Processed all data. Results: " + results);
+83:   }
+84:   
+85:   // Return the results
+86:   return results;
+87: }
+88: 
+89: // Function to find data
+90: function find(query: any) {
+91:   // Check if there's data to search
+92:   if (data.length === 0) {
+93:     console.log("No data to search");
+94:     return null;
+95:   }
+96:   
+97:   // Search for the data
+98:   for (let i = 0; i < data.length; i++) {
+99:     if (data[i] === query) {
+100:       // Log if debug is true
+101:       if (DEBUG === true) {
+102:         console.log("Found data at index " + i + ": " + data[i]);
+103:       }
+104:       
+105:       // Return the data
+106:       return { index: i, value: data[i] };
+107:     }
+108:   }
+109:   
+110:   // Log if debug is true
+111:   if (DEBUG === true) {
+112:     console.log("Data not found: " + query);
+113:   }
+114:   
+115:   // Return null if not found
+116:   return null;
+117: }
+118: 
+119: // Function to calculate statistics
+120: function calc_stats() {
+121:   // Check if there's data to calculate
+122:   if (data.length === 0) {
+123:     console.log("No data to calculate statistics");
+124:     return null;
+125:   }
+126:   
+127:   // Calculate statistics
+128:   let sum = 0;
+129:   let min = Number.MAX_VALUE;
+130:   let max = Number.MIN_VALUE;
+131:   let numCount = 0;
+132:   
+133:   for (let i = 0; i < data.length; i++) {
+134:     if (typeof data[i] === "number") {
+135:       sum += data[i];
+136:       if (data[i] < min) {
+137:         min = data[i];
+138:       }
+139:       if (data[i] > max) {
+140:         max = data[i];
+141:       }
+142:       numCount++;
+143:     }
+144:   }
+145:   
+146:   // Calculate average
+147:   let avg = numCount > 0 ? sum / numCount : 0;
+148:   
+149:   // Log if debug is true
+150:   if (DEBUG === true) {
+151:     console.log("Statistics: sum=" + sum + ", avg=" + avg + ", min=" + min + ", max=" + max + ", count=" + numCount);
+152:   }
+153:   
+154:   // Return the statistics
+155:   return {
+156:     sum: sum,
+157:     avg: avg,
+158:     min: min,
+159:     max: max,
+160:     count: numCount
+161:   };
+162: }
+163: 
+164: // Function to clear data
+165: function clearData() {
+166:   // Clear the data
+167:   data = [];
+168:   
+169:   // Log if debug is true
+170:   if (DEBUG === true) {
+171:     console.log("Data cleared");
+172:   }
+173:   
+174:   // Return success
+175:   return true;
+176: }
+177: 
+178: // Function to save data to a file
+179: function saveData(filename: string, callback: Function) {
+180:   // Check if there's data to save
+181:   if (data.length === 0) {
+182:     console.log("No data to save");
+183:     callback(new Error("No data to save"), null);
+184:     return;
+185:   }
+186:   
+187:   // Convert data to JSON
+188:   let jsonData;
+189:   try {
+190:     jsonData = JSON.stringify(data);
+191:   } catch (err) {
+192:     console.log("Error converting data to JSON: " + err);
+193:     callback(err, null);
+194:     return;
+195:   }
+196:   
+197:   // Simulate saving to a file
+198:   setTimeout(() => {
+199:     // Log if debug is true
+200:     if (DEBUG === true) {
+201:       console.log("Data saved to " + filename + ": " + jsonData);
+202:     }
+203:     
+204:     // Call the callback
+205:     callback(null, { success: true, filename: filename });
+206:   }, 1000);
+207: }
+208: 
+209: // Function to load data from a file
+210: function loadData(filename: string, callback: Function) {
+211:   // Simulate loading from a file
+212:   setTimeout(() => {
+213:     // Generate some random data
+214:     let loadedData = [];
+215:     for (let i = 0; i < 10; i++) {
+216:       loadedData.push(Math.floor(Math.random() * 100));
+217:     }
+218:     
+219:     // Set the data
+220:     data = loadedData;
+221:     
+222:     // Log if debug is true
+223:     if (DEBUG === true) {
+224:       console.log("Data loaded from " + filename + ": " + JSON.stringify(data));
+225:     }
+226:     
+227:     // Call the callback
+228:     callback(null, { success: true, filename: filename, data: data });
+229:   }, 1000);
+230: }
+231: 
+232: // Function to filter data
+233: function filterData(predicate: Function) {
+234:   // Check if there's data to filter
+235:   if (data.length === 0) {
+236:     console.log("No data to filter");
+237:     return [];
+238:   }
+239:   
+240:   // Filter the data
+241:   let filtered = [];
+242:   for (let i = 0; i < data.length; i++) {
+243:     if (predicate(data[i])) {
+244:       filtered.push(data[i]);
+245:     }
+246:   }
+247:   
+248:   // Log if debug is true
+249:   if (DEBUG === true) {
+250:     console.log("Filtered data: " + JSON.stringify(filtered));
+251:   }
+252:   
+253:   // Return the filtered data
+254:   return filtered;
+255: }
+256: 
+257: // Function to transform data
+258: function transformData(transformer: Function) {
+259:   // Check if there's data to transform
+260:   if (data.length === 0) {
+261:     console.log("No data to transform");
+262:     return [];
+263:   }
+264:   
+265:   // Transform the data
+266:   let transformed = [];
+267:   for (let i = 0; i < data.length; i++) {
+268:     transformed.push(transformer(data[i]));
+269:   }
+270:   
+271:   // Log if debug is true
+272:   if (DEBUG === true) {
+273:     console.log("Transformed data: " + JSON.stringify(transformed));
+274:   }
+275:   
+276:   // Return the transformed data
+277:   return transformed;
+278: }
+279: 
+280: // Example usage
+281: function runExample() {
+282:   // Add some data
+283:   add(10);
+284:   add("hello");
+285:   add([1, 2, 3]);
+286:   add({ name: "John", age: 30 });
+287:   
+288:   // Process the data
+289:   let results = processAllData();
+290:   console.log("Results:", results);
+291:   
+292:   // Find data
+293:   let found = find("hello");
+294:   console.log("Found:", found);
+295:   
+296:   // Calculate statistics
+297:   let stats = calc_stats();
+298:   console.log("Statistics:", stats);
+299:   
+300:   // Filter data
+301:   let filtered = filterData(function(item: any) {
+302:     return typeof item === "number" || Array.isArray(item);
+303:   });
+304:   console.log("Filtered:", filtered);
+305:   
+306:   // Transform data
+307:   let transformed = transformData(function(item: any) {
+308:     if (typeof item === "number") {
+309:       return item * 10;
+310:     } else if (typeof item === "string") {
+311:       return item + "!";
+312:     } else {
+313:       return item;
+314:     }
+315:   });
+316:   console.log("Transformed:", transformed);
+317:   
+318:   // Save data
+319:   saveData("data.json", function(err: Error | null, result: any) {
+320:     if (err) {
+321:       console.log("Error saving data:", err);
+322:     } else {
+323:       console.log("Save result:", result);
+324:       
+325:       // Clear data
+326:       clearData();
+327:       
+328:       // Load data
+329:       loadData("data.json", function(err: Error | null, result: any) {
+330:         if (err) {
+331:           console.log("Error loading data:", err);
+332:         } else {
+333:           console.log("Load result:", result);
+334:         }
+335:       });
+336:     }
+337:   });
+338: }
+339: 
+340: // Export functions
+341: export {
+342:   add,
+343:   process_data,
+344:   processAllData,
+345:   find,
+346:   calc_stats,
+347:   clearData,
+348:   saveData,
+349:   loadData,
+350:   filterData,
+351:   transformData,
+352:   runExample
+353: };
+
+🤖 Claude: Now that I've reviewed the code, I'll refactor it to be more readable and maintainable. Here's my refactoring plan:
+
+1. Use consistent naming conventions (camelCase for all functions)
+2. Add proper TypeScript types
+3. Remove global variables and encapsulate in a class
+4. Add better documentation
+5. Improve error handling
+6. Use more modern JS/TS features
+
+Let me make these changes:
+🔧 Executing str_replace command on ./fixtures/poorly-written-code.ts... {
+  command: 'str_replace',
+  path: './fixtures/poorly-written-code.ts',
+  old_str: '// This file contains a bunch of functions for data processing\n' +
+    '// Created on 3/13/2025\n' +
+    '\n' +
+    '// Global variables\n' +
+    'var data: any[] = [];\n' +
+    'var DEBUG = true;\n' +
+    'var MAX = 1000;\n' +
+    '\n' +
+    '// Function to add data\n' +
+    'function add(x: any) {\n' +
+    '  // Push the data to the array\n' +
+    '  data.push(x);\n' +
+    '  // Log if debug is true\n' +
+    '  if (DEBUG == true) {\n' +
+    '    console.log("Added data: " + x);\n' +
+    '  }\n' +
+    '  // Return success\n' +
+    '  return true;\n' +
+    '}\n' +
+    '\n' +
+    '// Function to process data\n' +
+    'function process_data(d: any) {\n' +
+    '  // Check if d is valid\n' +
+    '  if (!d) {\n' +
+    '    console.log("Error: Invalid data");\n' +
+    '    return null;\n' +
+    '  }\n' +
+    '  \n' +
+    '  // Process the data\n' +
+    '  let result: any;\n' +
+    '  if (typeof d === "number") {\n' +
+    "    // If it's a number, multiply by 2\n" +
+    '    result = d * 2;\n' +
+    '  } else if (typeof d === "string") {\n' +
+    "    // If it's a string, convert to uppercase\n" +
+    '    result = d.toUpperCase();\n' +
+    '  } else if (Array.isArray(d)) {\n' +
+    "    // If it's an array, sum all numbers or concatenate strings\n" +
+    '    result = 0;\n' +
+    '    for (let i = 0; i < d.length; i++) {\n' +
+    '      if (typeof d[i] === "number") {\n' +
+    '        result += d[i];\n' +
+    '      } else if (typeof d[i] === "string") {\n' +
+    '        if (result === 0) {\n' +
+    '          result = d[i];\n' +
+    '        } else {\n' +
+    '          result += d[i];\n' +
+    '        }\n' +
+    '      }\n' +
+    '    }\n' +
+    '  } else {\n' +
+    "    // If it's an object, return the keys\n" +
+    '    result = Object.keys(d);\n' +
+    '  }\n' +
+    '  \n' +
+    '  // Log the result if debug is true\n' +
+    '  if (DEBUG === true) {\n' +
+    '    console.log("Processed data. Result: " + result);\n' +
+    '  }\n' +
+    '  \n' +
+    '  // Return the result\n' +
+    '  return result;\n' +
+    '}\n' +
+    '\n' +
+    '// Function to process all data\n' +
+    'function processAllData() {\n' +
+    "  // Check if there's data to process\n" +
+    '  if (data.length === 0) {\n' +
+    '    console.log("No data to process");\n' +
+    '    return [];\n' +
+    '  }\n' +
+    '  \n' +
+    '  // Process all data\n' +
+    '  let results: any[] = [];\n' +
+    '  for (let i = 0; i < data.length; i++) {\n' +
+    '    let processed = process_data(data[i]);\n' +
+    '    results.push(processed);\n' +
+    '  }\n' +
+    '  \n' +
+    '  // Log the results if debug is true\n' +
+    '  if (DEBUG === true) {\n' +
+    '    console.log("Processed all data. Results: " + results);\n' +
+    '  }\n' +
+    '  \n' +
+    '  // Return the results\n' +
+    '  return results;\n' +
+    '}\n' +
+    '\n' +
+    '// Function to find data\n' +
+    'function find(query: any) {\n' +
+    "  // Check if there's data to search\n" +
+    '  if (data.length === 0) {\n' +
+    '    console.log("No data to search");\n' +
+    '    return null;\n' +
+    '  }\n' +
+    '  \n' +
+    '  // Search for the data\n' +
+    '  for (let i = 0; i < data.length; i++) {\n' +
+    '    if (data[i] === query) {\n' +
+    '      // Log if debug is true\n' +
+    '      if (DEBUG === true) {\n' +
+    '        console.log("Found data at index " + i + ": " + data[i]);\n' +
+    '      }\n' +
+    '      \n' +
+    '      // Return the data\n' +
+    '      return { index: i, value: data[i] };\n' +
+    '    }\n' +
+    '  }\n' +
+    '  \n' +
+    '  // Log if debug is true\n' +
+    '  if (DEBUG === true) {\n' +
+    '    console.log("Data not found: " + query);\n' +
+    '  }\n' +
+    '  \n' +
+    '  // Return null if not found\n' +
+    '  return null;\n' +
+    '}\n' +
+    '\n' +
+    '// Function to calculate statistics\n' +
+    'function calc_stats() {\n' +
+    "  // Check if there's data to calculate\n" +
+    '  if (data.length === 0) {\n' +
+    '    console.log("No data to calculate statistics");\n' +
+    '    return null;\n' +
+    '  }\n' +
+    '  \n' +
+    '  // Calculate statistics\n' +
+    '  let sum = 0;\n' +
+    '  let min = Number.MAX_VALUE;\n' +
+    '  let max = Number.MIN_VALUE;\n' +
+    '  let numCount = 0;\n' +
+    '  \n' +
+    '  for (let i = 0; i < data.length; i++) {\n' +
+    '    if (typeof data[i] === "number") {\n' +
+    '      sum += data[i];\n' +
+    '      if (data[i] < min) {\n' +
+    '        min = data[i];\n' +
+    '      }\n' +
+    '      if (data[i] > max) {\n' +
+    '        max = data[i];\n' +
+    '      }\n' +
+    '      numCount++;\n' +
+    '    }\n' +
+    '  }\n' +
+    '  \n' +
+    '  // Calculate average\n' +
+    '  let avg = numCount > 0 ? sum / numCount : 0;\n' +
+    '  \n' +
+    '  // Log if debug is true\n' +
+    '  if (DEBUG === true) {\n' +
+    '    console.log("Statistics: sum=" + sum + ", avg=" + avg + ", min=" + min + ", max=" + max + ", count=" + numCount);\n' +
+    '  }\n' +
+    '  \n' +
+    '  // Return the statistics\n' +
+    '  return {\n' +
+    '    sum: sum,\n' +
+    '    avg: avg,\n' +
+    '    min: min,\n' +
+    '    max: max,\n' +
+    '    count: numCount\n' +
+    '  };\n' +
+    '}\n' +
+    '\n' +
+    '// Function to clear data\n' +
+    'function clearData() {\n' +
+    '  // Clear the data\n' +
+    '  data = [];\n' +
+    '  \n' +
+    '  // Log if debug is true\n' +
+    '  if (DEBUG === true) {\n' +
+    '    console.log("Data cleared");\n' +
+    '  }\n' +
+    '  \n' +
+    '  // Return success\n' +
+    '  return true;\n' +
+    '}\n' +
+    '\n' +
+    '// Function to save data to a file\n' +
+    'function saveData(filename: string, callback: Function) {\n' +
+    "  // Check if there's data to save\n" +
+    '  if (data.length === 0) {\n' +
+    '    console.log("No data to save");\n' +
+    '    callback(new Error("No data to save"), null);\n' +
+    '    return;\n' +
+    '  }\n' +
+    '  \n' +
+    '  // Convert data to JSON\n' +
+    '  let jsonData;\n' +
+    '  try {\n' +
+    '    jsonData = JSON.stringify(data);\n' +
+    '  } catch (err) {\n' +
+    '    console.log("Error converting data to JSON: " + err);\n' +
+    '    callback(err, null);\n' +
+    '    return;\n' +
+    '  }\n' +
+    '  \n' +
+    '  // Simulate saving to a file\n' +
+    '  setTimeout(() => {\n' +
+    '    // Log if debug is true\n' +
+    '    if (DEBUG === true) {\n' +
+    '      console.log("Data saved to " + filename + ": " + jsonData);\n' +
+    '    }\n' +
+    '    \n' +
+    '    // Call the callback\n' +
+    '    callback(null, { success: true, filename: filename });\n' +
+    '  }, 1000);\n' +
+    '}\n' +
+    '\n' +
+    '// Function to load data from a file\n' +
+    'function loadData(filename: string, callback: Function) {\n' +
+    '  // Simulate loading from a file\n' +
+    '  setTimeout(() => {\n' +
+    '    // Generate some random data\n' +
+    '    let loadedData = [];\n' +
+    '    for (let i = 0; i < 10; i++) {\n' +
+    '      loadedData.push(Math.floor(Math.random() * 100));\n' +
+    '    }\n' +
+    '    \n' +
+    '    // Set the data\n' +
+    '    data = loadedData;\n' +
+    '    \n' +
+    '    // Log if debug is true\n' +
+    '    if (DEBUG === true) {\n' +
+    '      console.log("Data loaded from " + filename + ": " + JSON.stringify(data));\n' +
+    '    }\n' +
+    '    \n' +
+    '    // Call the callback\n' +
+    '    callback(null, { success: true, filename: filename, data: data });\n' +
+    '  }, 1000);\n' +
+    '}\n' +
+    '\n' +
+    '// Function to filter data\n' +
+    'function filterData(predicate: Function) {\n' +
+    "  // Check if there's data to filter\n" +
+    '  if (data.length === 0) {\n' +
+    '    console.log("No data to filter");\n' +
+    '    return [];\n' +
+    '  }\n' +
+    '  \n' +
+    '  // Filter the data\n' +
+    '  let filtered = [];\n' +
+    '  for (let i = 0; i < data.length; i++) {\n' +
+    '    if (predicate(data[i])) {\n' +
+    '      filtered.push(data[i]);\n' +
+    '    }\n' +
+    '  }\n' +
+    '  \n' +
+    '  // Log if debug is true\n' +
+    '  if (DEBUG === true) {\n' +
+    '    console.log("Filtered data: " + JSON.stringify(filtered));\n' +
+    '  }\n' +
+    '  \n' +
+    '  // Return the filtered data\n' +
+    '  return filtered;\n' +
+    '}\n' +
+    '\n' +
+    '// Function to transform data\n' +
+    'function transformData(transformer: Function) {\n' +
+    "  // Check if there's data to transform\n" +
+    '  if (data.length === 0) {\n' +
+    '    console.log("No data to transform");\n' +
+    '    return [];\n' +
+    '  }\n' +
+    '  \n' +
+    '  // Transform the data\n' +
+    '  let transformed = [];\n' +
+    '  for (let i = 0; i < data.length; i++) {\n' +
+    '    transformed.push(transformer(data[i]));\n' +
+    '  }\n' +
+    '  \n' +
+    '  // Log if debug is true\n' +
+    '  if (DEBUG === true) {\n' +
+    '    console.log("Transformed data: " + JSON.stringify(transformed));\n' +
+    '  }\n' +
+    '  \n' +
+    '  // Return the transformed data\n' +
+    '  return transformed;\n' +
+    '}\n' +
+    '\n' +
+    '// Example usage\n' +
+    'function runExample() {\n' +
+    '  // Add some data\n' +
+    '  add(10);\n' +
+    '  add("hello");\n' +
+    '  add([1, 2, 3]);\n' +
+    '  add({ name: "John", age: 30 });\n' +
+    '  \n' +
+    '  // Process the data\n' +
+    '  let results = processAllData();\n' +
+    '  console.log("Results:", results);\n' +
+    '  \n' +
+    '  // Find data\n' +
+    '  let found = find("hello");\n' +
+    '  console.log("Found:", found);\n' +
+    '  \n' +
+    '  // Calculate statistics\n' +
+    '  let stats = calc_stats();\n' +
+    '  console.log("Statistics:", stats);\n' +
+    '  \n' +
+    '  // Filter data\n' +
+    '  let filtered = filterData(function(item: any) {\n' +
+    '    return typeof item === "number" || Array.isArray(item);\n' +
+    '  });\n' +
+    '  console.log("Filtered:", filtered);\n' +
+    '  \n' +
+    '  // Transform data\n' +
+    '  let transformed = transformData(function(item: any) {\n' +
+    '    if (typeof item === "number") {\n' +
+    '      return item * 10;\n' +
+    '    } else if (typeof item === "string") {\n' +
+    '      return item + "!";\n' +
+    '    } else {\n' +
+    '      return item;\n' +
+    '    }\n' +
+    '  });\n' +
+    '  console.log("Transformed:", transformed);\n' +
+    '  \n' +
+    '  // Save data\n' +
+    '  saveData("data.json", function(err: Error | null, result: any) {\n' +
+    '    if (err) {\n' +
+    '      console.log("Error saving data:", err);\n' +
+    '    } else {\n' +
+    '      console.log("Save result:", result);\n' +
+    '      \n' +
+    '      // Clear data\n' +
+    '      clearData();\n' +
+    '      \n' +
+    '      // Load data\n' +
+    '      loadData("data.json", function(err: Error | null, result: any) {\n' +
+    '        if (err) {\n' +
+    '          console.log("Error loading data:", err);\n' +
+    '        } else {\n' +
+    '          console.log("Load result:", result);\n' +
+    '        }\n' +
+    '      });\n' +
+    '    }\n' +
+    '  });\n' +
+    '}\n' +
+    '\n' +
+    '// Export functions\n' +
+    'export {\n' +
+    '  add,\n' +
+    '  process_data,\n' +
+    '  processAllData,\n' +
+    '  find,\n' +
+    '  calc_stats,\n' +
+    '  clearData,\n' +
+    '  saveData,\n' +
+    '  loadData,\n' +
+    '  filterData,\n' +
+    '  transformData,\n' +
+    '  runExample\n' +
+    '};'
+}
+{
+  filePath: './fixtures/poorly-written-code.ts',
+  oldStr: '// This file contains a bunch of functions for data processing\n' +
+    '// Created on 3/13/2025\n' +
+    '\n' +
+    '// Global variables\n' +
+    'var data: any[] = [];\n' +
+    'var DEBUG = true;\n' +
+    'var MAX = 1000;\n' +
+    '\n' +
+    '// Function to add data\n' +
+    'function add(x: any) {\n' +
+    '  // Push the data to the array\n' +
+    '  data.push(x);\n' +
+    '  // Log if debug is true\n' +
+    '  if (DEBUG == true) {\n' +
+    '    console.log("Added data: " + x);\n' +
+    '  }\n' +
+    '  // Return success\n' +
+    '  return true;\n' +
+    '}\n' +
+    '\n' +
+    '// Function to process data\n' +
+    'function process_data(d: any) {\n' +
+    '  // Check if d is valid\n' +
+    '  if (!d) {\n' +
+    '    console.log("Error: Invalid data");\n' +
+    '    return null;\n' +
+    '  }\n' +
+    '  \n' +
+    '  // Process the data\n' +
+    '  let result: any;\n' +
+    '  if (typeof d === "number") {\n' +
+    "    // If it's a number, multiply by 2\n" +
+    '    result = d * 2;\n' +
+    '  } else if (typeof d === "string") {\n' +
+    "    // If it's a string, convert to uppercase\n" +
+    '    result = d.toUpperCase();\n' +
+    '  } else if (Array.isArray(d)) {\n' +
+    "    // If it's an array, sum all numbers or concatenate strings\n" +
+    '    result = 0;\n' +
+    '    for (let i = 0; i < d.length; i++) {\n' +
+    '      if (typeof d[i] === "number") {\n' +
+    '        result += d[i];\n' +
+    '      } else if (typeof d[i] === "string") {\n' +
+    '        if (result === 0) {\n' +
+    '          result = d[i];\n' +
+    '        } else {\n' +
+    '          result += d[i];\n' +
+    '        }\n' +
+    '      }\n' +
+    '    }\n' +
+    '  } else {\n' +
+    "    // If it's an object, return the keys\n" +
+    '    result = Object.keys(d);\n' +
+    '  }\n' +
+    '  \n' +
+    '  // Log the result if debug is true\n' +
+    '  if (DEBUG === true) {\n' +
+    '    console.log("Processed data. Result: " + result);\n' +
+    '  }\n' +
+    '  \n' +
+    '  // Return the result\n' +
+    '  return result;\n' +
+    '}\n' +
+    '\n' +
+    '// Function to process all data\n' +
+    'function processAllData() {\n' +
+    "  // Check if there's data to process\n" +
+    '  if (data.length === 0) {\n' +
+    '    console.log("No data to process");\n' +
+    '    return [];\n' +
+    '  }\n' +
+    '  \n' +
+    '  // Process all data\n' +
+    '  let results: any[] = [];\n' +
+    '  for (let i = 0; i < data.length; i++) {\n' +
+    '    let processed = process_data(data[i]);\n' +
+    '    results.push(processed);\n' +
+    '  }\n' +
+    '  \n' +
+    '  // Log the results if debug is true\n' +
+    '  if (DEBUG === true) {\n' +
+    '    console.log("Processed all data. Results: " + results);\n' +
+    '  }\n' +
+    '  \n' +
+    '  // Return the results\n' +
+    '  return results;\n' +
+    '}\n' +
+    '\n' +
+    '// Function to find data\n' +
+    'function find(query: any) {\n' +
+    "  // Check if there's data to search\n" +
+    '  if (data.length === 0) {\n' +
+    '    console.log("No data to search");\n' +
+    '    return null;\n' +
+    '  }\n' +
+    '  \n' +
+    '  // Search for the data\n' +
+    '  for (let i = 0; i < data.length; i++) {\n' +
+    '    if (data[i] === query) {\n' +
+    '      // Log if debug is true\n' +
+    '      if (DEBUG === true) {\n' +
+    '        console.log("Found data at index " + i + ": " + data[i]);\n' +
+    '      }\n' +
+    '      \n' +
+    '      // Return the data\n' +
+    '      return { index: i, value: data[i] };\n' +
+    '    }\n' +
+    '  }\n' +
+    '  \n' +
+    '  // Log if debug is true\n' +
+    '  if (DEBUG === true) {\n' +
+    '    console.log("Data not found: " + query);\n' +
+    '  }\n' +
+    '  \n' +
+    '  // Return null if not found\n' +
+    '  return null;\n' +
+    '}\n' +
+    '\n' +
+    '// Function to calculate statistics\n' +
+    'function calc_stats() {\n' +
+    "  // Check if there's data to calculate\n" +
+    '  if (data.length === 0) {\n' +
+    '    console.log("No data to calculate statistics");\n' +
+    '    return null;\n' +
+    '  }\n' +
+    '  \n' +
+    '  // Calculate statistics\n' +
+    '  let sum = 0;\n' +
+    '  let min = Number.MAX_VALUE;\n' +
+    '  let max = Number.MIN_VALUE;\n' +
+    '  let numCount = 0;\n' +
+    '  \n' +
+    '  for (let i = 0; i < data.length; i++) {\n' +
+    '    if (typeof data[i] === "number") {\n' +
+    '      sum += data[i];\n' +
+    '      if (data[i] < min) {\n' +
+    '        min = data[i];\n' +
+    '      }\n' +
+    '      if (data[i] > max) {\n' +
+    '        max = data[i];\n' +
+    '      }\n' +
+    '      numCount++;\n' +
+    '    }\n' +
+    '  }\n' +
+    '  \n' +
+    '  // Calculate average\n' +
+    '  let avg = numCount > 0 ? sum / numCount : 0;\n' +
+    '  \n' +
+    '  // Log if debug is true\n' +
+    '  if (DEBUG === true) {\n' +
+    '    console.log("Statistics: sum=" + sum + ", avg=" + avg + ", min=" + min + ", max=" + max + ", count=" + numCount);\n' +
+    '  }\n' +
+    '  \n' +
+    '  // Return the statistics\n' +
+    '  return {\n' +
+    '    sum: sum,\n' +
+    '    avg: avg,\n' +
+    '    min: min,\n' +
+    '    max: max,\n' +
+    '    count: numCount\n' +
+    '  };\n' +
+    '}\n' +
+    '\n' +
+    '// Function to clear data\n' +
+    'function clearData() {\n' +
+    '  // Clear the data\n' +
+    '  data = [];\n' +
+    '  \n' +
+    '  // Log if debug is true\n' +
+    '  if (DEBUG === true) {\n' +
+    '    console.log("Data cleared");\n' +
+    '  }\n' +
+    '  \n' +
+    '  // Return success\n' +
+    '  return true;\n' +
+    '}\n' +
+    '\n' +
+    '// Function to save data to a file\n' +
+    'function saveData(filename: string, callback: Function) {\n' +
+    "  // Check if there's data to save\n" +
+    '  if (data.length === 0) {\n' +
+    '    console.log("No data to save");\n' +
+    '    callback(new Error("No data to save"), null);\n' +
+    '    return;\n' +
+    '  }\n' +
+    '  \n' +
+    '  // Convert data to JSON\n' +
+    '  let jsonData;\n' +
+    '  try {\n' +
+    '    jsonData = JSON.stringify(data);\n' +
+    '  } catch (err) {\n' +
+    '    console.log("Error converting data to JSON: " + err);\n' +
+    '    callback(err, null);\n' +
+    '    return;\n' +
+    '  }\n' +
+    '  \n' +
+    '  // Simulate saving to a file\n' +
+    '  setTimeout(() => {\n' +
+    '    // Log if debug is true\n' +
+    '    if (DEBUG === true) {\n' +
+    '      console.log("Data saved to " + filename + ": " + jsonData);\n' +
+    '    }\n' +
+    '    \n' +
+    '    // Call the callback\n' +
+    '    callback(null, { success: true, filename: filename });\n' +
+    '  }, 1000);\n' +
+    '}\n' +
+    '\n' +
+    '// Function to load data from a file\n' +
+    'function loadData(filename: string, callback: Function) {\n' +
+    '  // Simulate loading from a file\n' +
+    '  setTimeout(() => {\n' +
+    '    // Generate some random data\n' +
+    '    let loadedData = [];\n' +
+    '    for (let i = 0; i < 10; i++) {\n' +
+    '      loadedData.push(Math.floor(Math.random() * 100));\n' +
+    '    }\n' +
+    '    \n' +
+    '    // Set the data\n' +
+    '    data = loadedData;\n' +
+    '    \n' +
+    '    // Log if debug is true\n' +
+    '    if (DEBUG === true) {\n' +
+    '      console.log("Data loaded from " + filename + ": " + JSON.stringify(data));\n' +
+    '    }\n' +
+    '    \n' +
+    '    // Call the callback\n' +
+    '    callback(null, { success: true, filename: filename, data: data });\n' +
+    '  }, 1000);\n' +
+    '}\n' +
+    '\n' +
+    '// Function to filter data\n' +
+    'function filterData(predicate: Function) {\n' +
+    "  // Check if there's data to filter\n" +
+    '  if (data.length === 0) {\n' +
+    '    console.log("No data to filter");\n' +
+    '    return [];\n' +
+    '  }\n' +
+    '  \n' +
+    '  // Filter the data\n' +
+    '  let filtered = [];\n' +
+    '  for (let i = 0; i < data.length; i++) {\n' +
+    '    if (predicate(data[i])) {\n' +
+    '      filtered.push(data[i]);\n' +
+    '    }\n' +
+    '  }\n' +
+    '  \n' +
+    '  // Log if debug is true\n' +
+    '  if (DEBUG === true) {\n' +
+    '    console.log("Filtered data: " + JSON.stringify(filtered));\n' +
+    '  }\n' +
+    '  \n' +
+    '  // Return the filtered data\n' +
+    '  return filtered;\n' +
+    '}\n' +
+    '\n' +
+    '// Function to transform data\n' +
+    'function transformData(transformer: Function) {\n' +
+    "  // Check if there's data to transform\n" +
+    '  if (data.length === 0) {\n' +
+    '    console.log("No data to transform");\n' +
+    '    return [];\n' +
+    '  }\n' +
+    '  \n' +
+    '  // Transform the data\n' +
+    '  let transformed = [];\n' +
+    '  for (let i = 0; i < data.length; i++) {\n' +
+    '    transformed.push(transformer(data[i]));\n' +
+    '  }\n' +
+    '  \n' +
+    '  // Log if debug is true\n' +
+    '  if (DEBUG === true) {\n' +
+    '    console.log("Transformed data: " + JSON.stringify(transformed));\n' +
+    '  }\n' +
+    '  \n' +
+    '  // Return the transformed data\n' +
+    '  return transformed;\n' +
+    '}\n' +
+    '\n' +
+    '// Example usage\n' +
+    'function runExample() {\n' +
+    '  // Add some data\n' +
+    '  add(10);\n' +
+    '  add("hello");\n' +
+    '  add([1, 2, 3]);\n' +
+    '  add({ name: "John", age: 30 });\n' +
+    '  \n' +
+    '  // Process the data\n' +
+    '  let results = processAllData();\n' +
+    '  console.log("Results:", results);\n' +
+    '  \n' +
+    '  // Find data\n' +
+    '  let found = find("hello");\n' +
+    '  console.log("Found:", found);\n' +
+    '  \n' +
+    '  // Calculate statistics\n' +
+    '  let stats = calc_stats();\n' +
+    '  console.log("Statistics:", stats);\n' +
+    '  \n' +
+    '  // Filter data\n' +
+    '  let filtered = filterData(function(item: any) {\n' +
+    '    return typeof item === "number" || Array.isArray(item);\n' +
+    '  });\n' +
+    '  console.log("Filtered:", filtered);\n' +
+    '  \n' +
+    '  // Transform data\n' +
+    '  let transformed = transformData(function(item: any) {\n' +
+    '    if (typeof item === "number") {\n' +
+    '      return item * 10;\n' +
+    '    } else if (typeof item === "string") {\n' +
+    '      return item + "!";\n' +
+    '    } else {\n' +
+    '      return item;\n' +
+    '    }\n' +
+    '  });\n' +
+    '  console.log("Transformed:", transformed);\n' +
+    '  \n' +
+    '  // Save data\n' +
+    '  saveData("data.json", function(err: Error | null, result: any) {\n' +
+    '    if (err) {\n' +
+    '      console.log("Error saving data:", err);\n' +
+    '    } else {\n' +
+    '      console.log("Save result:", result);\n' +
+    '      \n' +
+    '      // Clear data\n' +
+    '      clearData();\n' +
+    '      \n' +
+    '      // Load data\n' +
+    '      loadData("data.json", function(err: Error | null, result: any) {\n' +
+    '        if (err) {\n' +
+    '          console.log("Error loading data:", err);\n' +
+    '        } else {\n' +
+    '          console.log("Load result:", result);\n' +
+    '        }\n' +
+    '      });\n' +
+    '    }\n' +
+    '  });\n' +
+    '}\n' +
+    '\n' +
+    '// Export functions\n' +
+    'export {\n' +
+    '  add,\n' +
+    '  process_data,\n' +
+    '  processAllData,\n' +
+    '  find,\n' +
+    '  calc_stats,\n' +
+    '  clearData,\n' +
+    '  saveData,\n' +
+    '  loadData,\n' +
+    '  filterData,\n' +
+    '  transformData,\n' +
+    '  runExample\n' +
+    '};',
+  newStr: undefined
+}
+📋 Tool result: Error: No new string provided.
+🔧 Executing str_replace command on ./fixtures/poorly-written-code.ts... {
+  command: 'str_replace',
+  path: './fixtures/poorly-written-code.ts',
+  old_str: '// This file contains a bunch of functions for data processing\n' +
+    '// Created on 3/13/2025\n' +
+    '\n' +
+    '// Global variables\n' +
+    'var data: any[] = [];\n' +
+    'var DEBUG = true;\n' +
+    'var MAX = 1000;',
+  new_str: '/**\n' +
+    ' * Data Processing Utilities\n' +
+    ' * \n' +
+    ' * A collection of functions for managing and processing data.\n' +
+    ' * Created on 3/13/2025\n' +
+    ' */\n' +
+    '\n' +
+    '// Configuration\n' +
+    'const CONFIG = {\n' +
+    '  DEBUG: true,\n' +
+    '  MAX_ITEMS: 1000\n' +
+    '};\n' +
+    '\n' +
+    '// Store data in a private variable\n' +
+    'let dataStore: any[] = [];'
+}
+{
+  filePath: './fixtures/poorly-written-code.ts',
+  oldStr: '// This file contains a bunch of functions for data processing\n' +
+    '// Created on 3/13/2025\n' +
+    '\n' +
+    '// Global variables\n' +
+    'var data: any[] = [];\n' +
+    'var DEBUG = true;\n' +
+    'var MAX = 1000;',
+  newStr: '/**\n' +
+    ' * Data Processing Utilities\n' +
+    ' * \n' +
+    ' * A collection of functions for managing and processing data.\n' +
+    ' * Created on 3/13/2025\n' +
+    ' */\n' +
+    '\n' +
+    '// Configuration\n' +
+    'const CONFIG = {\n' +
+    '  DEBUG: true,\n' +
+    '  MAX_ITEMS: 1000\n' +
+    '};\n' +
+    '\n' +
+    '// Store data in a private variable\n' +
+    'let dataStore: any[] = [];'
+}
+📋 Tool result: Successfully replaced text at exactly one location.
+🔧 Executing str_replace command on ./fixtures/poorly-written-code.ts... {
+  command: 'str_replace',
+  path: './fixtures/poorly-written-code.ts',
+  old_str: '// Function to add data\n' +
+    'function add(x: any) {\n' +
+    '  // Push the data to the array\n' +
+    '  data.push(x);\n' +
+    '  // Log if debug is true\n' +
+    '  if (DEBUG == true) {\n' +
+    '    console.log("Added data: " + x);\n' +
+    '  }\n' +
+    '  // Return success\n' +
+    '  return true;\n' +
+    '}',
+  new_str: '/**\n' +
+    ' * Adds an item to the data store\n' +
+    ' * @param item - Any item to add to the data store\n' +
+    ' * @returns boolean indicating success\n' +
+    ' */\n' +
+    'function add(item: any): boolean {\n' +
+    '  dataStore.push(item);\n' +
+    '  \n' +
+    '  if (CONFIG.DEBUG) {\n' +
+    '    console.log(`Added data: ${JSON.stringify(item)}`);\n' +
+    '  }\n' +
+    '  \n' +
+    '  return true;\n' +
+    '}'
+}
+{
+  filePath: './fixtures/poorly-written-code.ts',
+  oldStr: '// Function to add data\n' +
+    'function add(x: any) {\n' +
+    '  // Push the data to the array\n' +
+    '  data.push(x);\n' +
+    '  // Log if debug is true\n' +
+    '  if (DEBUG == true) {\n' +
+    '    console.log("Added data: " + x);\n' +
+    '  }\n' +
+    '  // Return success\n' +
+    '  return true;\n' +
+    '}',
+  newStr: '/**\n' +
+    ' * Adds an item to the data store\n' +
+    ' * @param item - Any item to add to the data store\n' +
+    ' * @returns boolean indicating success\n' +
+    ' */\n' +
+    'function add(item: any): boolean {\n' +
+    '  dataStore.push(item);\n' +
+    '  \n' +
+    '  if (CONFIG.DEBUG) {\n' +
+    '    console.log(`Added data: ${JSON.stringify(item)}`);\n' +
+    '  }\n' +
+    '  \n' +
+    '  return true;\n' +
+    '}'
+}
+📋 Tool result: Successfully replaced text at exactly one location.
+🔧 Executing str_replace command on ./fixtures/poorly-written-code.ts... {
+  command: 'str_replace',
+  path: './fixtures/poorly-written-code.ts',
+  old_str: '// Function to process data\n' +
+    'function process_data(d: any) {\n' +
+    '  // Check if d is valid\n' +
+    '  if (!d) {\n' +
+    '    console.log("Error: Invalid data");\n' +
+    '    return null;\n' +
+    '  }\n' +
+    '  \n' +
+    '  // Process the data\n' +
+    '  let result: any;\n' +
+    '  if (typeof d === "number") {\n' +
+    "    // If it's a number, multiply by 2\n" +
+    '    result = d * 2;\n' +
+    '  } else if (typeof d === "string") {\n' +
+    "    // If it's a string, convert to uppercase\n" +
+    '    result = d.toUpperCase();\n' +
+    '  } else if (Array.isArray(d)) {\n' +
+    "    // If it's an array, sum all numbers or concatenate strings\n" +
+    '    result = 0;\n' +
+    '    for (let i = 0; i < d.length; i++) {\n' +
+    '      if (typeof d[i] === "number") {\n' +
+    '        result += d[i];\n' +
+    '      } else if (typeof d[i] === "string") {\n' +
+    '        if (result === 0) {\n' +
+    '          result = d[i];\n' +
+    '        } else {\n' +
+    '          result += d[i];\n' +
+    '        }\n' +
+    '      }\n' +
+    '    }\n' +
+    '  } else {\n' +
+    "    // If it's an object, return the keys\n" +
+    '    result = Object.keys(d);\n' +
+    '  }\n' +
+    '  \n' +
+    '  // Log the result if debug is true\n' +
+    '  if (DEBUG === true) {\n' +
+    '    console.log("Processed data. Result: " + result);\n' +
+    '  }\n' +
+    '  \n' +
+    '  // Return the result\n' +
+    '  return result;\n' +
+    '}',
+  new_str: '/**\n' +
+    ' * Processes a data item based on its type\n' +
+    ' * - Numbers: multiplied by 2\n' +
+    ' * - Strings: converted to uppercase\n' +
+    ' * - Arrays: numbers are summed, strings are concatenated\n' +
+    ' * - Objects: keys are returned\n' +
+    ' * \n' +
+    ' * @param data - The data to process\n' +
+    ' * @returns The processed data or null if invalid\n' +
+    ' */\n' +
+    'function processData(data: any): any {\n' +
+    '  if (!data) {\n' +
+    '    console.log("Error: Invalid data");\n' +
+    '    return null;\n' +
+    '  }\n' +
+    '  \n' +
+    '  let result: any;\n' +
+    '  \n' +
+    '  switch (typeof data) {\n' +
+    '    case "number":\n' +
+    '      result = data * 2;\n' +
+    '      break;\n' +
+    '      \n' +
+    '    case "string":\n' +
+    '      result = data.toUpperCase();\n' +
+    '      break;\n' +
+    '      \n' +
+    '    default:\n' +
+    '      if (Array.isArray(data)) {\n' +
+    '        result = processArray(data);\n' +
+    '      } else if (typeof data === "object") {\n' +
+    '        result = Object.keys(data);\n' +
+    '      }\n' +
+    '  }\n' +
+    '  \n' +
+    '  if (CONFIG.DEBUG) {\n' +
+    '    console.log(`Processed data. Result: ${result}`);\n' +
+    '  }\n' +
+    '  \n' +
+    '  return result;\n' +
+    '}\n' +
+    '\n' +
+    '/**\n' +
+    ' * Helper function to process array elements\n' +
+    ' * @param arr - Array to process\n' +
+    ' */\n' +
+    'function processArray(arr: any[]): any {\n' +
+    '  let result: any = 0;\n' +
+    '  \n' +
+    '  for (const item of arr) {\n' +
+    '    if (typeof item === "number") {\n' +
+    '      result += item;\n' +
+    '    } else if (typeof item === "string") {\n' +
+    '      if (result === 0) {\n' +
+    '        result = item;\n' +
+    '      } else {\n' +
+    '        result += item;\n' +
+    '      }\n' +
+    '    }\n' +
+    '  }\n' +
+    '  \n' +
+    '  return result;\n' +
+    '}'
+}
+{
+  filePath: './fixtures/poorly-written-code.ts',
+  oldStr: '// Function to process data\n' +
+    'function process_data(d: any) {\n' +
+    '  // Check if d is valid\n' +
+    '  if (!d) {\n' +
+    '    console.log("Error: Invalid data");\n' +
+    '    return null;\n' +
+    '  }\n' +
+    '  \n' +
+    '  // Process the data\n' +
+    '  let result: any;\n' +
+    '  if (typeof d === "number") {\n' +
+    "    // If it's a number, multiply by 2\n" +
+    '    result = d * 2;\n' +
+    '  } else if (typeof d === "string") {\n' +
+    "    // If it's a string, convert to uppercase\n" +
+    '    result = d.toUpperCase();\n' +
+    '  } else if (Array.isArray(d)) {\n' +
+    "    // If it's an array, sum all numbers or concatenate strings\n" +
+    '    result = 0;\n' +
+    '    for (let i = 0; i < d.length; i++) {\n' +
+    '      if (typeof d[i] === "number") {\n' +
+    '        result += d[i];\n' +
+    '      } else if (typeof d[i] === "string") {\n' +
+    '        if (result === 0) {\n' +
+    '          result = d[i];\n' +
+    '        } else {\n' +
+    '          result += d[i];\n' +
+    '        }\n' +
+    '      }\n' +
+    '    }\n' +
+    '  } else {\n' +
+    "    // If it's an object, return the keys\n" +
+    '    result = Object.keys(d);\n' +
+    '  }\n' +
+    '  \n' +
+    '  // Log the result if debug is true\n' +
+    '  if (DEBUG === true) {\n' +
+    '    console.log("Processed data. Result: " + result);\n' +
+    '  }\n' +
+    '  \n' +
+    '  // Return the result\n' +
+    '  return result;\n' +
+    '}',
+  newStr: '/**\n' +
+    ' * Processes a data item based on its type\n' +
+    ' * - Numbers: multiplied by 2\n' +
+    ' * - Strings: converted to uppercase\n' +
+    ' * - Arrays: numbers are summed, strings are concatenated\n' +
+    ' * - Objects: keys are returned\n' +
+    ' * \n' +
+    ' * @param data - The data to process\n' +
+    ' * @returns The processed data or null if invalid\n' +
+    ' */\n' +
+    'function processData(data: any): any {\n' +
+    '  if (!data) {\n' +
+    '    console.log("Error: Invalid data");\n' +
+    '    return null;\n' +
+    '  }\n' +
+    '  \n' +
+    '  let result: any;\n' +
+    '  \n' +
+    '  switch (typeof data) {\n' +
+    '    case "number":\n' +
+    '      result = data * 2;\n' +
+    '      break;\n' +
+    '      \n' +
+    '    case "string":\n' +
+    '      result = data.toUpperCase();\n' +
+    '      break;\n' +
+    '      \n' +
+    '    default:\n' +
+    '      if (Array.isArray(data)) {\n' +
+    '        result = processArray(data);\n' +
+    '      } else if (typeof data === "object") {\n' +
+    '        result = Object.keys(data);\n' +
+    '      }\n' +
+    '  }\n' +
+    '  \n' +
+    '  if (CONFIG.DEBUG) {\n' +
+    '    console.log(`Processed data. Result: ${result}`);\n' +
+    '  }\n' +
+    '  \n' +
+    '  return result;\n' +
+    '}\n' +
+    '\n' +
+    '/**\n' +
+    ' * Helper function to process array elements\n' +
+    ' * @param arr - Array to process\n' +
+    ' */\n' +
+    'function processArray(arr: any[]): any {\n' +
+    '  let result: any = 0;\n' +
+    '  \n' +
+    '  for (const item of arr) {\n' +
+    '    if (typeof item === "number") {\n' +
+    '      result += item;\n' +
+    '    } else if (typeof item === "string") {\n' +
+    '      if (result === 0) {\n' +
+    '        result = item;\n' +
+    '      } else {\n' +
+    '        result += item;\n' +
+    '      }\n' +
+    '    }\n' +
+    '  }\n' +
+    '  \n' +
+    '  return result;\n' +
+    '}'
+}
+📋 Tool result: Successfully replaced text at exactly one location.
+🔧 Executing str_replace command on ./fixtures/poorly-written-code.ts... {
+  command: 'str_replace',
+  path: './fixtures/poorly-written-code.ts',
+  old_str: '// Function to process all data\n' +
+    'function processAllData() {\n' +
+    "  // Check if there's data to process\n" +
+    '  if (data.length === 0) {\n' +
+    '    console.log("No data to process");\n' +
+    '    return [];\n' +
+    '  }\n' +
+    '  \n' +
+    '  // Process all data\n' +
+    '  let results: any[] = [];\n' +
+    '  for (let i = 0; i < data.length; i++) {\n' +
+    '    let processed = process_data(data[i]);\n' +
+    '    results.push(processed);\n' +
+    '  }\n' +
+    '  \n' +
+    '  // Log the results if debug is true\n' +
+    '  if (DEBUG === true) {\n' +
+    '    console.log("Processed all data. Results: " + results);\n' +
+    '  }\n' +
+    '  \n' +
+    '  // Return the results\n' +
+    '  return results;\n' +
+    '}',
+  new_str: '/**\n' +
+    ' * Process all items in the data store\n' +
+    ' * @returns Array of processed items\n' +
+    ' */\n' +
+    'function processAllData(): any[] {\n' +
+    '  if (dataStore.length === 0) {\n' +
+    '    console.log("No data to process");\n' +
+    '    return [];\n' +
+    '  }\n' +
+    '  \n' +
+    '  const results = dataStore.map(item => processData(item));\n' +
+    '  \n' +
+    '  if (CONFIG.DEBUG) {\n' +
+    '    console.log(`Processed all data. Results: ${JSON.stringify(results)}`);\n' +
+    '  }\n' +
+    '  \n' +
+    '  return results;\n' +
+    '}'
+}
+{
+  filePath: './fixtures/poorly-written-code.ts',
+  oldStr: '// Function to process all data\n' +
+    'function processAllData() {\n' +
+    "  // Check if there's data to process\n" +
+    '  if (data.length === 0) {\n' +
+    '    console.log("No data to process");\n' +
+    '    return [];\n' +
+    '  }\n' +
+    '  \n' +
+    '  // Process all data\n' +
+    '  let results: any[] = [];\n' +
+    '  for (let i = 0; i < data.length; i++) {\n' +
+    '    let processed = process_data(data[i]);\n' +
+    '    results.push(processed);\n' +
+    '  }\n' +
+    '  \n' +
+    '  // Log the results if debug is true\n' +
+    '  if (DEBUG === true) {\n' +
+    '    console.log("Processed all data. Results: " + results);\n' +
+    '  }\n' +
+    '  \n' +
+    '  // Return the results\n' +
+    '  return results;\n' +
+    '}',
+  newStr: '/**\n' +
+    ' * Process all items in the data store\n' +
+    ' * @returns Array of processed items\n' +
+    ' */\n' +
+    'function processAllData(): any[] {\n' +
+    '  if (dataStore.length === 0) {\n' +
+    '    console.log("No data to process");\n' +
+    '    return [];\n' +
+    '  }\n' +
+    '  \n' +
+    '  const results = dataStore.map(item => processData(item));\n' +
+    '  \n' +
+    '  if (CONFIG.DEBUG) {\n' +
+    '    console.log(`Processed all data. Results: ${JSON.stringify(results)}`);\n' +
+    '  }\n' +
+    '  \n' +
+    '  return results;\n' +
+    '}'
+}
+📋 Tool result: Successfully replaced text at exactly one location.
+🔧 Executing str_replace command on ./fixtures/poorly-written-code.ts... {
+  command: 'str_replace',
+  path: './fixtures/poorly-written-code.ts',
+  old_str: '// Function to find data\n' +
+    'function find(query: any) {\n' +
+    "  // Check if there's data to search\n" +
+    '  if (data.length === 0) {\n' +
+    '    console.log("No data to search");\n' +
+    '    return null;\n' +
+    '  }\n' +
+    '  \n' +
+    '  // Search for the data\n' +
+    '  for (let i = 0; i < data.length; i++) {\n' +
+    '    if (data[i] === query) {\n' +
+    '      // Log if debug is true\n' +
+    '      if (DEBUG === true) {\n' +
+    '        console.log("Found data at index " + i + ": " + data[i]);\n' +
+    '      }\n' +
+    '      \n' +
+    '      // Return the data\n' +
+    '      return { index: i, value: data[i] };\n' +
+    '    }\n' +
+    '  }\n' +
+    '  \n' +
+    '  // Log if debug is true\n' +
+    '  if (DEBUG === true) {\n' +
+    '    console.log("Data not found: " + query);\n' +
+    '  }\n' +
+    '  \n' +
+    '  // Return null if not found\n' +
+    '  return null;\n' +
+    '}',
+  new_str: '/**\n' +
+    ' * Find an item in the data store\n' +
+    ' * @param query - The item to find\n' +
+    ' * @returns Object with index and value if found, null otherwise\n' +
+    ' */\n' +
+    'function find(query: any): { index: number, value: any } | null {\n' +
+    '  if (dataStore.length === 0) {\n' +
+    '    console.log("No data to search");\n' +
+    '    return null;\n' +
+    '  }\n' +
+    '  \n' +
+    '  const index = dataStore.findIndex(item => item === query);\n' +
+    '  \n' +
+    '  if (index !== -1) {\n' +
+    '    if (CONFIG.DEBUG) {\n' +
+    '      console.log(`Found data at index ${index}: ${JSON.stringify(dataStore[index])}`);\n' +
+    '    }\n' +
+    '    \n' +
+    '    return { index, value: dataStore[index] };\n' +
+    '  }\n' +
+    '  \n' +
+    '  if (CONFIG.DEBUG) {\n' +
+    '    console.log(`Data not found: ${JSON.stringify(query)}`);\n' +
+    '  }\n' +
+    '  \n' +
+    '  return null;\n' +
+    '}'
+}
+{
+  filePath: './fixtures/poorly-written-code.ts',
+  oldStr: '// Function to find data\n' +
+    'function find(query: any) {\n' +
+    "  // Check if there's data to search\n" +
+    '  if (data.length === 0) {\n' +
+    '    console.log("No data to search");\n' +
+    '    return null;\n' +
+    '  }\n' +
+    '  \n' +
+    '  // Search for the data\n' +
+    '  for (let i = 0; i < data.length; i++) {\n' +
+    '    if (data[i] === query) {\n' +
+    '      // Log if debug is true\n' +
+    '      if (DEBUG === true) {\n' +
+    '        console.log("Found data at index " + i + ": " + data[i]);\n' +
+    '      }\n' +
+    '      \n' +
+    '      // Return the data\n' +
+    '      return { index: i, value: data[i] };\n' +
+    '    }\n' +
+    '  }\n' +
+    '  \n' +
+    '  // Log if debug is true\n' +
+    '  if (DEBUG === true) {\n' +
+    '    console.log("Data not found: " + query);\n' +
+    '  }\n' +
+    '  \n' +
+    '  // Return null if not found\n' +
+    '  return null;\n' +
+    '}',
+  newStr: '/**\n' +
+    ' * Find an item in the data store\n' +
+    ' * @param query - The item to find\n' +
+    ' * @returns Object with index and value if found, null otherwise\n' +
+    ' */\n' +
+    'function find(query: any): { index: number, value: any } | null {\n' +
+    '  if (dataStore.length === 0) {\n' +
+    '    console.log("No data to search");\n' +
+    '    return null;\n' +
+    '  }\n' +
+    '  \n' +
+    '  const index = dataStore.findIndex(item => item === query);\n' +
+    '  \n' +
+    '  if (index !== -1) {\n' +
+    '    if (CONFIG.DEBUG) {\n' +
+    '      console.log(`Found data at index ${index}: ${JSON.stringify(dataStore[index])}`);\n' +
+    '    }\n' +
+    '    \n' +
+    '    return { index, value: dataStore[index] };\n' +
+    '  }\n' +
+    '  \n' +
+    '  if (CONFIG.DEBUG) {\n' +
+    '    console.log(`Data not found: ${JSON.stringify(query)}`);\n' +
+    '  }\n' +
+    '  \n' +
+    '  return null;\n' +
+    '}'
+}
+📋 Tool result: Successfully replaced text at exactly one location.
+🔧 Executing str_replace command on ./fixtures/poorly-written-code.ts... {
+  command: 'str_replace',
+  path: './fixtures/poorly-written-code.ts',
+  old_str: '// Function to calculate statistics\n' +
+    'function calc_stats() {\n' +
+    "  // Check if there's data to calculate\n" +
+    '  if (data.length === 0) {\n' +
+    '    console.log("No data to calculate statistics");\n' +
+    '    return null;\n' +
+    '  }\n' +
+    '  \n' +
+    '  // Calculate statistics\n' +
+    '  let sum = 0;\n' +
+    '  let min = Number.MAX_VALUE;\n' +
+    '  let max = Number.MIN_VALUE;\n' +
+    '  let numCount = 0;\n' +
+    '  \n' +
+    '  for (let i = 0; i < data.length; i++) {\n' +
+    '    if (typeof data[i] === "number") {\n' +
+    '      sum += data[i];\n' +
+    '      if (data[i] < min) {\n' +
+    '        min = data[i];\n' +
+    '      }\n' +
+    '      if (data[i] > max) {\n' +
+    '        max = data[i];\n' +
+    '      }\n' +
+    '      numCount++;\n' +
+    '    }\n' +
+    '  }\n' +
+    '  \n' +
+    '  // Calculate average\n' +
+    '  let avg = numCount > 0 ? sum / numCount : 0;\n' +
+    '  \n' +
+    '  // Log if debug is true\n' +
+    '  if (DEBUG === true) {\n' +
+    '    console.log("Statistics: sum=" + sum + ", avg=" + avg + ", min=" + min + ", max=" + max + ", count=" + numCount);\n' +
+    '  }\n' +
+    '  \n' +
+    '  // Return the statistics\n' +
+    '  return {\n' +
+    '    sum: sum,\n' +
+    '    avg: avg,\n' +
+    '    min: min,\n' +
+    '    max: max,\n' +
+    '    count: numCount\n' +
+    '  };\n' +
+    '}',
+  new_str: '/**\n' +
+    ' * Calculate statistics for numeric values in the data store\n' +
+    ' * @returns Statistics object or null if no data\n' +
+    ' */\n' +
+    'interface Statistics {\n' +
+    '  sum: number;\n' +
+    '  avg: number;\n' +
+    '  min: number;\n' +
+    '  max: number;\n' +
+    '  count: number;\n' +
+    '}\n' +
+    '\n' +
+    'function calculateStats(): Statistics | null {\n' +
+    '  if (dataStore.length === 0) {\n' +
+    '    console.log("No data to calculate statistics");\n' +
+    '    return null;\n' +
+    '  }\n' +
+    '  \n' +
+    '  const numberItems = dataStore.filter(item => typeof item === "number") as number[];\n' +
+    '  \n' +
+    '  if (numberItems.length === 0) {\n' +
+    '    return {\n' +
+    '      sum: 0,\n' +
+    '      avg: 0,\n' +
+    '      min: 0,\n' +
+    '      max: 0,\n' +
+    '      count: 0\n' +
+    '    };\n' +
+    '  }\n' +
+    '  \n' +
+    '  const sum = numberItems.reduce((acc, val) => acc + val, 0);\n' +
+    '  const min = Math.min(...numberItems);\n' +
+    '  const max = Math.max(...numberItems);\n' +
+    '  const count = numberItems.length;\n' +
+    '  const avg = sum / count;\n' +
+    '  \n' +
+    '  if (CONFIG.DEBUG) {\n' +
+    '    console.log(`Statistics: sum=${sum}, avg=${avg}, min=${min}, max=${max}, count=${count}`);\n' +
+    '  }\n' +
+    '  \n' +
+    '  return { sum, avg, min, max, count };\n' +
+    '}'
+}
+{
+  filePath: './fixtures/poorly-written-code.ts',
+  oldStr: '// Function to calculate statistics\n' +
+    'function calc_stats() {\n' +
+    "  // Check if there's data to calculate\n" +
+    '  if (data.length === 0) {\n' +
+    '    console.log("No data to calculate statistics");\n' +
+    '    return null;\n' +
+    '  }\n' +
+    '  \n' +
+    '  // Calculate statistics\n' +
+    '  let sum = 0;\n' +
+    '  let min = Number.MAX_VALUE;\n' +
+    '  let max = Number.MIN_VALUE;\n' +
+    '  let numCount = 0;\n' +
+    '  \n' +
+    '  for (let i = 0; i < data.length; i++) {\n' +
+    '    if (typeof data[i] === "number") {\n' +
+    '      sum += data[i];\n' +
+    '      if (data[i] < min) {\n' +
+    '        min = data[i];\n' +
+    '      }\n' +
+    '      if (data[i] > max) {\n' +
+    '        max = data[i];\n' +
+    '      }\n' +
+    '      numCount++;\n' +
+    '    }\n' +
+    '  }\n' +
+    '  \n' +
+    '  // Calculate average\n' +
+    '  let avg = numCount > 0 ? sum / numCount : 0;\n' +
+    '  \n' +
+    '  // Log if debug is true\n' +
+    '  if (DEBUG === true) {\n' +
+    '    console.log("Statistics: sum=" + sum + ", avg=" + avg + ", min=" + min + ", max=" + max + ", count=" + numCount);\n' +
+    '  }\n' +
+    '  \n' +
+    '  // Return the statistics\n' +
+    '  return {\n' +
+    '    sum: sum,\n' +
+    '    avg: avg,\n' +
+    '    min: min,\n' +
+    '    max: max,\n' +
+    '    count: numCount\n' +
+    '  };\n' +
+    '}',
+  newStr: '/**\n' +
+    ' * Calculate statistics for numeric values in the data store\n' +
+    ' * @returns Statistics object or null if no data\n' +
+    ' */\n' +
+    'interface Statistics {\n' +
+    '  sum: number;\n' +
+    '  avg: number;\n' +
+    '  min: number;\n' +
+    '  max: number;\n' +
+    '  count: number;\n' +
+    '}\n' +
+    '\n' +
+    'function calculateStats(): Statistics | null {\n' +
+    '  if (dataStore.length === 0) {\n' +
+    '    console.log("No data to calculate statistics");\n' +
+    '    return null;\n' +
+    '  }\n' +
+    '  \n' +
+    '  const numberItems = dataStore.filter(item => typeof item === "number") as number[];\n' +
+    '  \n' +
+    '  if (numberItems.length === 0) {\n' +
+    '    return {\n' +
+    '      sum: 0,\n' +
+    '      avg: 0,\n' +
+    '      min: 0,\n' +
+    '      max: 0,\n' +
+    '      count: 0\n' +
+    '    };\n' +
+    '  }\n' +
+    '  \n' +
+    '  const sum = numberItems.reduce((acc, val) => acc + val, 0);\n' +
+    '  const min = Math.min(...numberItems);\n' +
+    '  const max = Math.max(...numberItems);\n' +
+    '  const count = numberItems.length;\n' +
+    '  const avg = sum / count;\n' +
+    '  \n' +
+    '  if (CONFIG.DEBUG) {\n' +
+    '    console.log(`Statistics: sum=${sum}, avg=${avg}, min=${min}, max=${max}, count=${count}`);\n' +
+    '  }\n' +
+    '  \n' +
+    '  return { sum, avg, min, max, count };\n' +
+    '}'
+}
+📋 Tool result: Successfully replaced text at exactly one location.
+🔧 Executing str_replace command on ./fixtures/poorly-written-code.ts... {
+  command: 'str_replace',
+  path: './fixtures/poorly-written-code.ts',
+  old_str: '// Function to clear data\n' +
+    'function clearData() {\n' +
+    '  // Clear the data\n' +
+    '  data = [];\n' +
+    '  \n' +
+    '  // Log if debug is true\n' +
+    '  if (DEBUG === true) {\n' +
+    '    console.log("Data cleared");\n' +
+    '  }\n' +
+    '  \n' +
+    '  // Return success\n' +
+    '  return true;\n' +
+    '}',
+  new_str: '/**\n' +
+    ' * Clear all data from the data store\n' +
+    ' * @returns boolean indicating success\n' +
+    ' */\n' +
+    'function clearData(): boolean {\n' +
+    '  dataStore = [];\n' +
+    '  \n' +
+    '  if (CONFIG.DEBUG) {\n' +
+    '    console.log("Data cleared");\n' +
+    '  }\n' +
+    '  \n' +
+    '  return true;\n' +
+    '}'
+}
+{
+  filePath: './fixtures/poorly-written-code.ts',
+  oldStr: '// Function to clear data\n' +
+    'function clearData() {\n' +
+    '  // Clear the data\n' +
+    '  data = [];\n' +
+    '  \n' +
+    '  // Log if debug is true\n' +
+    '  if (DEBUG === true) {\n' +
+    '    console.log("Data cleared");\n' +
+    '  }\n' +
+    '  \n' +
+    '  // Return success\n' +
+    '  return true;\n' +
+    '}',
+  newStr: '/**\n' +
+    ' * Clear all data from the data store\n' +
+    ' * @returns boolean indicating success\n' +
+    ' */\n' +
+    'function clearData(): boolean {\n' +
+    '  dataStore = [];\n' +
+    '  \n' +
+    '  if (CONFIG.DEBUG) {\n' +
+    '    console.log("Data cleared");\n' +
+    '  }\n' +
+    '  \n' +
+    '  return true;\n' +
+    '}'
+}
+📋 Tool result: Successfully replaced text at exactly one location.
+🔧 Executing str_replace command on ./fixtures/poorly-written-code.ts... {
+  command: 'str_replace',
+  path: './fixtures/poorly-written-code.ts',
+  old_str: '// Function to save data to a file\n' +
+    'function saveData(filename: string, callback: Function) {\n' +
+    "  // Check if there's data to save\n" +
+    '  if (data.length === 0) {\n' +
+    '    console.log("No data to save");\n' +
+    '    callback(new Error("No data to save"), null);\n' +
+    '    return;\n' +
+    '  }\n' +
+    '  \n' +
+    '  // Convert data to JSON\n' +
+    '  let jsonData;\n' +
+    '  try {\n' +
+    '    jsonData = JSON.stringify(data);\n' +
+    '  } catch (err) {\n' +
+    '    console.log("Error converting data to JSON: " + err);\n' +
+    '    callback(err, null);\n' +
+    '    return;\n' +
+    '  }\n' +
+    '  \n' +
+    '  // Simulate saving to a file\n' +
+    '  setTimeout(() => {\n' +
+    '    // Log if debug is true\n' +
+    '    if (DEBUG === true) {\n' +
+    '      console.log("Data saved to " + filename + ": " + jsonData);\n' +
+    '    }\n' +
+    '    \n' +
+    '    // Call the callback\n' +
+    '    callback(null, { success: true, filename: filename });\n' +
+    '  }, 1000);\n' +
+    '}',
+  new_str: '/**\n' +
+    ' * Save data to a file (simulated)\n' +
+    ' * @param filename - Name of the file to save to\n' +
+    ' * @param callback - Function to call when save is complete\n' +
+    ' */\n' +
+    'type SaveCallback = (error: Error | null, result?: { success: boolean, filename: string }) => void;\n' +
+    '\n' +
+    'function saveData(filename: string, callback: SaveCallback): void {\n' +
+    '  if (dataStore.length === 0) {\n' +
+    '    console.log("No data to save");\n' +
+    '    callback(new Error("No data to save"));\n' +
+    '    return;\n' +
+    '  }\n' +
+    '  \n' +
+    '  let jsonData: string;\n' +
+    '  try {\n' +
+    '    jsonData = JSON.stringify(dataStore);\n' +
+    '  } catch (err) {\n' +
+    '    const error = err instanceof Error ? err : new Error(String(err));\n' +
+    '    console.log(`Error converting data to JSON: ${error.message}`);\n' +
+    '    callback(error);\n' +
+    '    return;\n' +
+    '  }\n' +
+    '  \n' +
+    '  // Simulate saving to a file\n' +
+    '  setTimeout(() => {\n' +
+    '    if (CONFIG.DEBUG) {\n' +
+    '      console.log(`Data saved to ${filename}: ${jsonData}`);\n' +
+    '    }\n' +
+    '    \n' +
+    '    callback(null, { success: true, filename });\n' +
+    '  }, 1000);\n' +
+    '}'
+}
+{
+  filePath: './fixtures/poorly-written-code.ts',
+  oldStr: '// Function to save data to a file\n' +
+    'function saveData(filename: string, callback: Function) {\n' +
+    "  // Check if there's data to save\n" +
+    '  if (data.length === 0) {\n' +
+    '    console.log("No data to save");\n' +
+    '    callback(new Error("No data to save"), null);\n' +
+    '    return;\n' +
+    '  }\n' +
+    '  \n' +
+    '  // Convert data to JSON\n' +
+    '  let jsonData;\n' +
+    '  try {\n' +
+    '    jsonData = JSON.stringify(data);\n' +
+    '  } catch (err) {\n' +
+    '    console.log("Error converting data to JSON: " + err);\n' +
+    '    callback(err, null);\n' +
+    '    return;\n' +
+    '  }\n' +
+    '  \n' +
+    '  // Simulate saving to a file\n' +
+    '  setTimeout(() => {\n' +
+    '    // Log if debug is true\n' +
+    '    if (DEBUG === true) {\n' +
+    '      console.log("Data saved to " + filename + ": " + jsonData);\n' +
+    '    }\n' +
+    '    \n' +
+    '    // Call the callback\n' +
+    '    callback(null, { success: true, filename: filename });\n' +
+    '  }, 1000);\n' +
+    '}',
+  newStr: '/**\n' +
+    ' * Save data to a file (simulated)\n' +
+    ' * @param filename - Name of the file to save to\n' +
+    ' * @param callback - Function to call when save is complete\n' +
+    ' */\n' +
+    'type SaveCallback = (error: Error | null, result?: { success: boolean, filename: string }) => void;\n' +
+    '\n' +
+    'function saveData(filename: string, callback: SaveCallback): void {\n' +
+    '  if (dataStore.length === 0) {\n' +
+    '    console.log("No data to save");\n' +
+    '    callback(new Error("No data to save"));\n' +
+    '    return;\n' +
+    '  }\n' +
+    '  \n' +
+    '  let jsonData: string;\n' +
+    '  try {\n' +
+    '    jsonData = JSON.stringify(dataStore);\n' +
+    '  } catch (err) {\n' +
+    '    const error = err instanceof Error ? err : new Error(String(err));\n' +
+    '    console.log(`Error converting data to JSON: ${error.message}`);\n' +
+    '    callback(error);\n' +
+    '    return;\n' +
+    '  }\n' +
+    '  \n' +
+    '  // Simulate saving to a file\n' +
+    '  setTimeout(() => {\n' +
+    '    if (CONFIG.DEBUG) {\n' +
+    '      console.log(`Data saved to ${filename}: ${jsonData}`);\n' +
+    '    }\n' +
+    '    \n' +
+    '    callback(null, { success: true, filename });\n' +
+    '  }, 1000);\n' +
+    '}'
+}
+📋 Tool result: Successfully replaced text at exactly one location.
+🔧 Executing str_replace command on ./fixtures/poorly-written-code.ts... {
+  command: 'str_replace',
+  path: './fixtures/poorly-written-code.ts',
+  old_str: '// Function to load data from a file\n' +
+    'function loadData(filename: string, callback: Function) {\n' +
+    '  // Simulate loading from a file\n' +
+    '  setTimeout(() => {\n' +
+    '    // Generate some random data\n' +
+    '    let loadedData = [];\n' +
+    '    for (let i = 0; i < 10; i++) {\n' +
+    '      loadedData.push(Math.floor(Math.random() * 100));\n' +
+    '    }\n' +
+    '    \n' +
+    '    // Set the data\n' +
+    '    data = loadedData;\n' +
+    '    \n' +
+    '    // Log if debug is true\n' +
+    '    if (DEBUG === true) {\n' +
+    '      console.log("Data loaded from " + filename + ": " + JSON.stringify(data));\n' +
+    '    }\n' +
+    '    \n' +
+    '    // Call the callback\n' +
+    '    callback(null, { success: true, filename: filename, data: data });\n' +
+    '  }, 1000);\n' +
+    '}',
+  new_str: '/**\n' +
+    ' * Load data from a file (simulated)\n' +
+    ' * @param filename - Name of the file to load from\n' +
+    ' * @param callback - Function to call when load is complete\n' +
+    ' */\n' +
+    'type LoadCallback = (\n' +
+    '  error: Error | null, \n' +
+    '  result?: { success: boolean, filename: string, data: any[] }\n' +
+    ') => void;\n' +
+    '\n' +
+    'function loadData(filename: string, callback: LoadCallback): void {\n' +
+    '  // Simulate loading from a file\n' +
+    '  setTimeout(() => {\n' +
+    '    // Generate some random data\n' +
+    '    const loadedData = Array.from({ length: 10 }, () => Math.floor(Math.random() * 100));\n' +
+    '    \n' +
+    '    // Set the data\n' +
+    '    dataStore = loadedData;\n' +
+    '    \n' +
+    '    if (CONFIG.DEBUG) {\n' +
+    '      console.log(`Data loaded from ${filename}: ${JSON.stringify(dataStore)}`);\n' +
+    '    }\n' +
+    '    \n' +
+    '    callback(null, { \n' +
+    '      success: true, \n' +
+    '      filename, \n' +
+    '      data: dataStore \n' +
+    '    });\n' +
+    '  }, 1000);\n' +
+    '}'
+}
+{
+  filePath: './fixtures/poorly-written-code.ts',
+  oldStr: '// Function to load data from a file\n' +
+    'function loadData(filename: string, callback: Function) {\n' +
+    '  // Simulate loading from a file\n' +
+    '  setTimeout(() => {\n' +
+    '    // Generate some random data\n' +
+    '    let loadedData = [];\n' +
+    '    for (let i = 0; i < 10; i++) {\n' +
+    '      loadedData.push(Math.floor(Math.random() * 100));\n' +
+    '    }\n' +
+    '    \n' +
+    '    // Set the data\n' +
+    '    data = loadedData;\n' +
+    '    \n' +
+    '    // Log if debug is true\n' +
+    '    if (DEBUG === true) {\n' +
+    '      console.log("Data loaded from " + filename + ": " + JSON.stringify(data));\n' +
+    '    }\n' +
+    '    \n' +
+    '    // Call the callback\n' +
+    '    callback(null, { success: true, filename: filename, data: data });\n' +
+    '  }, 1000);\n' +
+    '}',
+  newStr: '/**\n' +
+    ' * Load data from a file (simulated)\n' +
+    ' * @param filename - Name of the file to load from\n' +
+    ' * @param callback - Function to call when load is complete\n' +
+    ' */\n' +
+    'type LoadCallback = (\n' +
+    '  error: Error | null, \n' +
+    '  result?: { success: boolean, filename: string, data: any[] }\n' +
+    ') => void;\n' +
+    '\n' +
+    'function loadData(filename: string, callback: LoadCallback): void {\n' +
+    '  // Simulate loading from a file\n' +
+    '  setTimeout(() => {\n' +
+    '    // Generate some random data\n' +
+    '    const loadedData = Array.from({ length: 10 }, () => Math.floor(Math.random() * 100));\n' +
+    '    \n' +
+    '    // Set the data\n' +
+    '    dataStore = loadedData;\n' +
+    '    \n' +
+    '    if (CONFIG.DEBUG) {\n' +
+    '      console.log(`Data loaded from ${filename}: ${JSON.stringify(dataStore)}`);\n' +
+    '    }\n' +
+    '    \n' +
+    '    callback(null, { \n' +
+    '      success: true, \n' +
+    '      filename, \n' +
+    '      data: dataStore \n' +
+    '    });\n' +
+    '  }, 1000);\n' +
+    '}'
+}
+📋 Tool result: Successfully replaced text at exactly one location.
+🔧 Executing str_replace command on ./fixtures/poorly-written-code.ts... {
+  command: 'str_replace',
+  path: './fixtures/poorly-written-code.ts',
+  old_str: '// Function to filter data\n' +
+    'function filterData(predicate: Function) {\n' +
+    "  // Check if there's data to filter\n" +
+    '  if (data.length === 0) {\n' +
+    '    console.log("No data to filter");\n' +
+    '    return [];\n' +
+    '  }\n' +
+    '  \n' +
+    '  // Filter the data\n' +
+    '  let filtered = [];\n' +
+    '  for (let i = 0; i < data.length; i++) {\n' +
+    '    if (predicate(data[i])) {\n' +
+    '      filtered.push(data[i]);\n' +
+    '    }\n' +
+    '  }\n' +
+    '  \n' +
+    '  // Log if debug is true\n' +
+    '  if (DEBUG === true) {\n' +
+    '    console.log("Filtered data: " + JSON.stringify(filtered));\n' +
+    '  }\n' +
+    '  \n' +
+    '  // Return the filtered data\n' +
+    '  return filtered;\n' +
+    '}',
+  new_str: '/**\n' +
+    ' * Filter data in the data store\n' +
+    ' * @param predicate - Function that returns true for items to keep\n' +
+    ' * @returns Filtered array of items\n' +
+    ' */\n' +
+    'function filterData(predicate: (item: any) => boolean): any[] {\n' +
+    '  if (dataStore.length === 0) {\n' +
+    '    console.log("No data to filter");\n' +
+    '    return [];\n' +
+    '  }\n' +
+    '  \n' +
+    '  const filtered = dataStore.filter(predicate);\n' +
+    '  \n' +
+    '  if (CONFIG.DEBUG) {\n' +
+    '    console.log(`Filtered data: ${JSON.stringify(filtered)}`);\n' +
+    '  }\n' +
+    '  \n' +
+    '  return filtered;\n' +
+    '}'
+}
+{
+  filePath: './fixtures/poorly-written-code.ts',
+  oldStr: '// Function to filter data\n' +
+    'function filterData(predicate: Function) {\n' +
+    "  // Check if there's data to filter\n" +
+    '  if (data.length === 0) {\n' +
+    '    console.log("No data to filter");\n' +
+    '    return [];\n' +
+    '  }\n' +
+    '  \n' +
+    '  // Filter the data\n' +
+    '  let filtered = [];\n' +
+    '  for (let i = 0; i < data.length; i++) {\n' +
+    '    if (predicate(data[i])) {\n' +
+    '      filtered.push(data[i]);\n' +
+    '    }\n' +
+    '  }\n' +
+    '  \n' +
+    '  // Log if debug is true\n' +
+    '  if (DEBUG === true) {\n' +
+    '    console.log("Filtered data: " + JSON.stringify(filtered));\n' +
+    '  }\n' +
+    '  \n' +
+    '  // Return the filtered data\n' +
+    '  return filtered;\n' +
+    '}',
+  newStr: '/**\n' +
+    ' * Filter data in the data store\n' +
+    ' * @param predicate - Function that returns true for items to keep\n' +
+    ' * @returns Filtered array of items\n' +
+    ' */\n' +
+    'function filterData(predicate: (item: any) => boolean): any[] {\n' +
+    '  if (dataStore.length === 0) {\n' +
+    '    console.log("No data to filter");\n' +
+    '    return [];\n' +
+    '  }\n' +
+    '  \n' +
+    '  const filtered = dataStore.filter(predicate);\n' +
+    '  \n' +
+    '  if (CONFIG.DEBUG) {\n' +
+    '    console.log(`Filtered data: ${JSON.stringify(filtered)}`);\n' +
+    '  }\n' +
+    '  \n' +
+    '  return filtered;\n' +
+    '}'
+}
+📋 Tool result: Successfully replaced text at exactly one location.
+🔧 Executing str_replace command on ./fixtures/poorly-written-code.ts... {
+  command: 'str_replace',
+  path: './fixtures/poorly-written-code.ts',
+  old_str: '// Function to transform data\n' +
+    'function transformData(transformer: Function) {\n' +
+    "  // Check if there's data to transform\n" +
+    '  if (data.length === 0) {\n' +
+    '    console.log("No data to transform");\n' +
+    '    return [];\n' +
+    '  }\n' +
+    '  \n' +
+    '  // Transform the data\n' +
+    '  let transformed = [];\n' +
+    '  for (let i = 0; i < data.length; i++) {\n' +
+    '    transformed.push(transformer(data[i]));\n' +
+    '  }\n' +
+    '  \n' +
+    '  // Log if debug is true\n' +
+    '  if (DEBUG === true) {\n' +
+    '    console.log("Transformed data: " + JSON.stringify(transformed));\n' +
+    '  }\n' +
+    '  \n' +
+    '  // Return the transformed data\n' +
+    '  return transformed;\n' +
+    '}',
+  new_str: '/**\n' +
+    ' * Transform data in the data store\n' +
+    ' * @param transformer - Function that transforms each item\n' +
+    ' * @returns Array of transformed items\n' +
+    ' */\n' +
+    'function transformData<T>(transformer: (item: any) => T): T[] {\n' +
+    '  if (dataStore.length === 0) {\n' +
+    '    console.log("No data to transform");\n' +
+    '    return [];\n' +
+    '  }\n' +
+    '  \n' +
+    '  const transformed = dataStore.map(transformer);\n' +
+    '  \n' +
+    '  if (CONFIG.DEBUG) {\n' +
+    '    console.log(`Transformed data: ${JSON.stringify(transformed)}`);\n' +
+    '  }\n' +
+    '  \n' +
+    '  return transformed;\n' +
+    '}'
+}
+{
+  filePath: './fixtures/poorly-written-code.ts',
+  oldStr: '// Function to transform data\n' +
+    'function transformData(transformer: Function) {\n' +
+    "  // Check if there's data to transform\n" +
+    '  if (data.length === 0) {\n' +
+    '    console.log("No data to transform");\n' +
+    '    return [];\n' +
+    '  }\n' +
+    '  \n' +
+    '  // Transform the data\n' +
+    '  let transformed = [];\n' +
+    '  for (let i = 0; i < data.length; i++) {\n' +
+    '    transformed.push(transformer(data[i]));\n' +
+    '  }\n' +
+    '  \n' +
+    '  // Log if debug is true\n' +
+    '  if (DEBUG === true) {\n' +
+    '    console.log("Transformed data: " + JSON.stringify(transformed));\n' +
+    '  }\n' +
+    '  \n' +
+    '  // Return the transformed data\n' +
+    '  return transformed;\n' +
+    '}',
+  newStr: '/**\n' +
+    ' * Transform data in the data store\n' +
+    ' * @param transformer - Function that transforms each item\n' +
+    ' * @returns Array of transformed items\n' +
+    ' */\n' +
+    'function transformData<T>(transformer: (item: any) => T): T[] {\n' +
+    '  if (dataStore.length === 0) {\n' +
+    '    console.log("No data to transform");\n' +
+    '    return [];\n' +
+    '  }\n' +
+    '  \n' +
+    '  const transformed = dataStore.map(transformer);\n' +
+    '  \n' +
+    '  if (CONFIG.DEBUG) {\n' +
+    '    console.log(`Transformed data: ${JSON.stringify(transformed)}`);\n' +
+    '  }\n' +
+    '  \n' +
+    '  return transformed;\n' +
+    '}'
+}
+📋 Tool result: Successfully replaced text at exactly one location.
+🔧 Executing str_replace command on ./fixtures/poorly-written-code.ts... {
+  command: 'str_replace',
+  path: './fixtures/poorly-written-code.ts',
+  old_str: '// Example usage\n' +
+    'function runExample() {\n' +
+    '  // Add some data\n' +
+    '  add(10);\n' +
+    '  add("hello");\n' +
+    '  add([1, 2, 3]);\n' +
+    '  add({ name: "John", age: 30 });\n' +
+    '  \n' +
+    '  // Process the data\n' +
+    '  let results = processAllData();\n' +
+    '  console.log("Results:", results);\n' +
+    '  \n' +
+    '  // Find data\n' +
+    '  let found = find("hello");\n' +
+    '  console.log("Found:", found);\n' +
+    '  \n' +
+    '  // Calculate statistics\n' +
+    '  let stats = calc_stats();\n' +
+    '  console.log("Statistics:", stats);\n' +
+    '  \n' +
+    '  // Filter data\n' +
+    '  let filtered = filterData(function(item: any) {\n' +
+    '    return typeof item === "number" || Array.isArray(item);\n' +
+    '  });\n' +
+    '  console.log("Filtered:", filtered);\n' +
+    '  \n' +
+    '  // Transform data\n' +
+    '  let transformed = transformData(function(item: any) {\n' +
+    '    if (typeof item === "number") {\n' +
+    '      return item * 10;\n' +
+    '    } else if (typeof item === "string") {\n' +
+    '      return item + "!";\n' +
+    '    } else {\n' +
+    '      return item;\n' +
+    '    }\n' +
+    '  });\n' +
+    '  console.log("Transformed:", transformed);\n' +
+    '  \n' +
+    '  // Save data\n' +
+    '  saveData("data.json", function(err: Error | null, result: any) {\n' +
+    '    if (err) {\n' +
+    '      console.log("Error saving data:", err);\n' +
+    '    } else {\n' +
+    '      console.log("Save result:", result);\n' +
+    '      \n' +
+    '      // Clear data\n' +
+    '      clearData();\n' +
+    '      \n' +
+    '      // Load data\n' +
+    '      loadData("data.json", function(err: Error | null, result: any) {\n' +
+    '        if (err) {\n' +
+    '          console.log("Error loading data:", err);\n' +
+    '        } else {\n' +
+    '          console.log("Load result:", result);\n' +
+    '        }\n' +
+    '      });\n' +
+    '    }\n' +
+    '  });\n' +
+    '}',
+  new_str: '/**\n' +
+    ' * Run an example demonstrating all functionality\n' +
+    ' */\n' +
+    'function runExample(): void {\n' +
+    '  // Add some sample data\n' +
+    '  add(10);\n' +
+    '  add("hello");\n' +
+    '  add([1, 2, 3]);\n' +
+    '  add({ name: "John", age: 30 });\n' +
+    '  \n' +
+    '  // Process all data\n' +
+    '  const results = processAllData();\n' +
+    '  console.log("Results:", results);\n' +
+    '  \n' +
+    '  // Find an item\n' +
+    '  const found = find("hello");\n' +
+    '  console.log("Found:", found);\n' +
+    '  \n' +
+    '  // Calculate statistics\n' +
+    '  const stats = calculateStats();\n' +
+    '  console.log("Statistics:", stats);\n' +
+    '  \n' +
+    '  // Filter data\n' +
+    '  const filtered = filterData(item => \n' +
+    '    typeof item === "number" || Array.isArray(item)\n' +
+    '  );\n' +
+    '  console.log("Filtered:", filtered);\n' +
+    '  \n' +
+    '  // Transform data\n' +
+    '  const transformed = transformData((item: any) => {\n' +
+    '    if (typeof item === "number") {\n' +
+    '      return item * 10;\n' +
+    '    } else if (typeof item === "string") {\n' +
+    '      return item + "!";\n' +
+    '    } else {\n' +
+    '      return item;\n' +
+    '    }\n' +
+    '  });\n' +
+    '  console.log("Transformed:", transformed);\n' +
+    '  \n' +
+    '  // Demonstrate async operations\n' +
+    '  saveData("data.json", (err, result) => {\n' +
+    '    if (err) {\n' +
+    '      console.log("Error saving data:", err);\n' +
+    '    } else {\n' +
+    '      console.log("Save result:", result);\n' +
+    '      \n' +
+    '      clearData();\n' +
+    '      \n' +
+    '      loadData("data.json", (err, result) => {\n' +
+    '        if (err) {\n' +
+    '          console.log("Error loading data:", err);\n' +
+    '        } else {\n' +
+    '          console.log("Load result:", result);\n' +
+    '        }\n' +
+    '      });\n' +
+    '    }\n' +
+    '  });\n' +
+    '}'
+}
+{
+  filePath: './fixtures/poorly-written-code.ts',
+  oldStr: '// Example usage\n' +
+    'function runExample() {\n' +
+    '  // Add some data\n' +
+    '  add(10);\n' +
+    '  add("hello");\n' +
+    '  add([1, 2, 3]);\n' +
+    '  add({ name: "John", age: 30 });\n' +
+    '  \n' +
+    '  // Process the data\n' +
+    '  let results = processAllData();\n' +
+    '  console.log("Results:", results);\n' +
+    '  \n' +
+    '  // Find data\n' +
+    '  let found = find("hello");\n' +
+    '  console.log("Found:", found);\n' +
+    '  \n' +
+    '  // Calculate statistics\n' +
+    '  let stats = calc_stats();\n' +
+    '  console.log("Statistics:", stats);\n' +
+    '  \n' +
+    '  // Filter data\n' +
+    '  let filtered = filterData(function(item: any) {\n' +
+    '    return typeof item === "number" || Array.isArray(item);\n' +
+    '  });\n' +
+    '  console.log("Filtered:", filtered);\n' +
+    '  \n' +
+    '  // Transform data\n' +
+    '  let transformed = transformData(function(item: any) {\n' +
+    '    if (typeof item === "number") {\n' +
+    '      return item * 10;\n' +
+    '    } else if (typeof item === "string") {\n' +
+    '      return item + "!";\n' +
+    '    } else {\n' +
+    '      return item;\n' +
+    '    }\n' +
+    '  });\n' +
+    '  console.log("Transformed:", transformed);\n' +
+    '  \n' +
+    '  // Save data\n' +
+    '  saveData("data.json", function(err: Error | null, result: any) {\n' +
+    '    if (err) {\n' +
+    '      console.log("Error saving data:", err);\n' +
+    '    } else {\n' +
+    '      console.log("Save result:", result);\n' +
+    '      \n' +
+    '      // Clear data\n' +
+    '      clearData();\n' +
+    '      \n' +
+    '      // Load data\n' +
+    '      loadData("data.json", function(err: Error | null, result: any) {\n' +
+    '        if (err) {\n' +
+    '          console.log("Error loading data:", err);\n' +
+    '        } else {\n' +
+    '          console.log("Load result:", result);\n' +
+    '        }\n' +
+    '      });\n' +
+    '    }\n' +
+    '  });\n' +
+    '}',
+  newStr: '/**\n' +
+    ' * Run an example demonstrating all functionality\n' +
+    ' */\n' +
+    'function runExample(): void {\n' +
+    '  // Add some sample data\n' +
+    '  add(10);\n' +
+    '  add("hello");\n' +
+    '  add([1, 2, 3]);\n' +
+    '  add({ name: "John", age: 30 });\n' +
+    '  \n' +
+    '  // Process all data\n' +
+    '  const results = processAllData();\n' +
+    '  console.log("Results:", results);\n' +
+    '  \n' +
+    '  // Find an item\n' +
+    '  const found = find("hello");\n' +
+    '  console.log("Found:", found);\n' +
+    '  \n' +
+    '  // Calculate statistics\n' +
+    '  const stats = calculateStats();\n' +
+    '  console.log("Statistics:", stats);\n' +
+    '  \n' +
+    '  // Filter data\n' +
+    '  const filtered = filterData(item => \n' +
+    '    typeof item === "number" || Array.isArray(item)\n' +
+    '  );\n' +
+    '  console.log("Filtered:", filtered);\n' +
+    '  \n' +
+    '  // Transform data\n' +
+    '  const transformed = transformData((item: any) => {\n' +
+    '    if (typeof item === "number") {\n' +
+    '      return item * 10;\n' +
+    '    } else if (typeof item === "string") {\n' +
+    '      return item + "!";\n' +
+    '    } else {\n' +
+    '      return item;\n' +
+    '    }\n' +
+    '  });\n' +
+    '  console.log("Transformed:", transformed);\n' +
+    '  \n' +
+    '  // Demonstrate async operations\n' +
+    '  saveData("data.json", (err, result) => {\n' +
+    '    if (err) {\n' +
+    '      console.log("Error saving data:", err);\n' +
+    '    } else {\n' +
+    '      console.log("Save result:", result);\n' +
+    '      \n' +
+    '      clearData();\n' +
+    '      \n' +
+    '      loadData("data.json", (err, result) => {\n' +
+    '        if (err) {\n' +
+    '          console.log("Error loading data:", err);\n' +
+    '        } else {\n' +
+    '          console.log("Load result:", result);\n' +
+    '        }\n' +
+    '      });\n' +
+    '    }\n' +
+    '  });\n' +
+    '}'
+}
+📋 Tool result: Successfully replaced text at exactly one location.
+🔧 Executing str_replace command on ./fixtures/poorly-written-code.ts... {
+  command: 'str_replace',
+  path: './fixtures/poorly-written-code.ts',
+  old_str: '// Export functions\n' +
+    'export {\n' +
+    '  add,\n' +
+    '  process_data,\n' +
+    '  processAllData,\n' +
+    '  find,\n' +
+    '  calc_stats,\n' +
+    '  clearData,\n' +
+    '  saveData,\n' +
+    '  loadData,\n' +
+    '  filterData,\n' +
+    '  transformData,\n' +
+    '  runExample\n' +
+    '};',
+  new_str: '// Export public API\n' +
+    'export {\n' +
+    '  add,\n' +
+    '  processData,\n' +
+    '  processAllData,\n' +
+    '  find,\n' +
+    '  calculateStats,\n' +
+    '  clearData,\n' +
+    '  saveData,\n' +
+    '  loadData,\n' +
+    '  filterData,\n' +
+    '  transformData,\n' +
+    '  runExample,\n' +
+    '  // Types\n' +
+    '  Statistics,\n' +
+    '  SaveCallback,\n' +
+    '  LoadCallback\n' +
+    '};'
+}
+{
+  filePath: './fixtures/poorly-written-code.ts',
+  oldStr: '// Export functions\n' +
+    'export {\n' +
+    '  add,\n' +
+    '  process_data,\n' +
+    '  processAllData,\n' +
+    '  find,\n' +
+    '  calc_stats,\n' +
+    '  clearData,\n' +
+    '  saveData,\n' +
+    '  loadData,\n' +
+    '  filterData,\n' +
+    '  transformData,\n' +
+    '  runExample\n' +
+    '};',
+  newStr: '// Export public API\n' +
+    'export {\n' +
+    '  add,\n' +
+    '  processData,\n' +
+    '  processAllData,\n' +
+    '  find,\n' +
+    '  calculateStats,\n' +
+    '  clearData,\n' +
+    '  saveData,\n' +
+    '  loadData,\n' +
+    '  filterData,\n' +
+    '  transformData,\n' +
+    '  runExample,\n' +
+    '  // Types\n' +
+    '  Statistics,\n' +
+    '  SaveCallback,\n' +
+    '  LoadCallback\n' +
+    '};'
+}
+📋 Tool result: Successfully replaced text at exactly one location.
+🔧 Executing view command on ./fixtures/poorly-written-code.ts... { command: 'view', path: './fixtures/poorly-written-code.ts' }
+{ filePath: './fixtures/poorly-written-code.ts', viewRange: undefined }
+📋 Tool result: 1: /**
+2:  * Data Processing Utilities
+3:  * 
+4:  * A collection of functions for managing and processing data.
+5:  * Created on 3/13/2025
+6:  */
+7: 
+8: // Configuration
+9: const CONFIG = {
+10:   DEBUG: true,
+11:   MAX_ITEMS: 1000
+12: };
+13: 
+14: // Store data in a private variable
+15: let dataStore: any[] = [];
+16: 
+17: /**
+18:  * Adds an item to the data store
+19:  * @param item - Any item to add to the data store
+20:  * @returns boolean indicating success
+21:  */
+22: function add(item: any): boolean {
+23:   dataStore.push(item);
+24:   
+25:   if (CONFIG.DEBUG) {
+26:     console.log(`Added data: ${JSON.stringify(item)}`);
+27:   }
+28:   
+29:   return true;
+30: }
+31: 
+32: /**
+33:  * Processes a data item based on its type
+34:  * - Numbers: multiplied by 2
+35:  * - Strings: converted to uppercase
+36:  * - Arrays: numbers are summed, strings are concatenated
+37:  * - Objects: keys are returned
+38:  * 
+39:  * @param data - The data to process
+40:  * @returns The processed data or null if invalid
+41:  */
+42: function processData(data: any): any {
+43:   if (!data) {
+44:     console.log("Error: Invalid data");
+45:     return null;
+46:   }
+47:   
+48:   let result: any;
+49:   
+50:   switch (typeof data) {
+51:     case "number":
+52:       result = data * 2;
+53:       break;
+54:       
+55:     case "string":
+56:       result = data.toUpperCase();
+57:       break;
+58:       
+59:     default:
+60:       if (Array.isArray(data)) {
+61:         result = processArray(data);
+62:       } else if (typeof data === "object") {
+63:         result = Object.keys(data);
+64:       }
+65:   }
+66:   
+67:   if (CONFIG.DEBUG) {
+68:     console.log(`Processed data. Result: ${result}`);
+69:   }
+70:   
+71:   return result;
+72: }
+73: 
+74: /**
+75:  * Helper function to process array elements
+76:  * @param arr - Array to process
+77:  */
+78: function processArray(arr: any[]): any {
+79:   let result: any = 0;
+80:   
+81:   for (const item of arr) {
+82:     if (typeof item === "number") {
+83:       result += item;
+84:     } else if (typeof item === "string") {
+85:       if (result === 0) {
+86:         result = item;
+87:       } else {
+88:         result += item;
+89:       }
+90:     }
+91:   }
+92:   
+93:   return result;
+94: }
+95: 
+96: /**
+97:  * Process all items in the data store
+98:  * @returns Array of processed items
+99:  */
+100: function processAllData(): any[] {
+101:   if (dataStore.length === 0) {
+102:     console.log("No data to process");
+103:     return [];
+104:   }
+105:   
+106:   const results = dataStore.map(item => processData(item));
+107:   
+108:   if (CONFIG.DEBUG) {
+109:     console.log(`Processed all data. Results: ${JSON.stringify(results)}`);
+110:   }
+111:   
+112:   return results;
+113: }
+114: 
+115: /**
+116:  * Find an item in the data store
+117:  * @param query - The item to find
+118:  * @returns Object with index and value if found, null otherwise
+119:  */
+120: function find(query: any): { index: number, value: any } | null {
+121:   if (dataStore.length === 0) {
+122:     console.log("No data to search");
+123:     return null;
+124:   }
+125:   
+126:   const index = dataStore.findIndex(item => item === query);
+127:   
+128:   if (index !== -1) {
+129:     if (CONFIG.DEBUG) {
+130:       console.log(`Found data at index ${index}: ${JSON.stringify(dataStore[index])}`);
+131:     }
+132:     
+133:     return { index, value: dataStore[index] };
+134:   }
+135:   
+136:   if (CONFIG.DEBUG) {
+137:     console.log(`Data not found: ${JSON.stringify(query)}`);
+138:   }
+139:   
+140:   return null;
+141: }
+142: 
+143: /**
+144:  * Calculate statistics for numeric values in the data store
+145:  * @returns Statistics object or null if no data
+146:  */
+147: interface Statistics {
+148:   sum: number;
+149:   avg: number;
+150:   min: number;
+151:   max: number;
+152:   count: number;
+153: }
+154: 
+155: function calculateStats(): Statistics | null {
+156:   if (dataStore.length === 0) {
+157:     console.log("No data to calculate statistics");
+158:     return null;
+159:   }
+160:   
+161:   const numberItems = dataStore.filter(item => typeof item === "number") as number[];
+162:   
+163:   if (numberItems.length === 0) {
+164:     return {
+165:       sum: 0,
+166:       avg: 0,
+167:       min: 0,
+168:       max: 0,
+169:       count: 0
+170:     };
+171:   }
+172:   
+173:   const sum = numberItems.reduce((acc, val) => acc + val, 0);
+174:   const min = Math.min(...numberItems);
+175:   const max = Math.max(...numberItems);
+176:   const count = numberItems.length;
+177:   const avg = sum / count;
+178:   
+179:   if (CONFIG.DEBUG) {
+180:     console.log(`Statistics: sum=${sum}, avg=${avg}, min=${min}, max=${max}, count=${count}`);
+181:   }
+182:   
+183:   return { sum, avg, min, max, count };
+184: }
+185: 
+186: /**
+187:  * Clear all data from the data store
+188:  * @returns boolean indicating success
+189:  */
+190: function clearData(): boolean {
+191:   dataStore = [];
+192:   
+193:   if (CONFIG.DEBUG) {
+194:     console.log("Data cleared");
+195:   }
+196:   
+197:   return true;
+198: }
+199: 
+200: /**
+201:  * Save data to a file (simulated)
+202:  * @param filename - Name of the file to save to
+203:  * @param callback - Function to call when save is complete
+204:  */
+205: type SaveCallback = (error: Error | null, result?: { success: boolean, filename: string }) => void;
+206: 
+207: function saveData(filename: string, callback: SaveCallback): void {
+208:   if (dataStore.length === 0) {
+209:     console.log("No data to save");
+210:     callback(new Error("No data to save"));
+211:     return;
+212:   }
+213:   
+214:   let jsonData: string;
+215:   try {
+216:     jsonData = JSON.stringify(dataStore);
+217:   } catch (err) {
+218:     const error = err instanceof Error ? err : new Error(String(err));
+219:     console.log(`Error converting data to JSON: ${error.message}`);
+220:     callback(error);
+221:     return;
+222:   }
+223:   
+224:   // Simulate saving to a file
+225:   setTimeout(() => {
+226:     if (CONFIG.DEBUG) {
+227:       console.log(`Data saved to ${filename}: ${jsonData}`);
+228:     }
+229:     
+230:     callback(null, { success: true, filename });
+231:   }, 1000);
+232: }
+233: 
+234: /**
+235:  * Load data from a file (simulated)
+236:  * @param filename - Name of the file to load from
+237:  * @param callback - Function to call when load is complete
+238:  */
+239: type LoadCallback = (
+240:   error: Error | null, 
+241:   result?: { success: boolean, filename: string, data: any[] }
+242: ) => void;
+243: 
+244: function loadData(filename: string, callback: LoadCallback): void {
+245:   // Simulate loading from a file
+246:   setTimeout(() => {
+247:     // Generate some random data
+248:     const loadedData = Array.from({ length: 10 }, () => Math.floor(Math.random() * 100));
+249:     
+250:     // Set the data
+251:     dataStore = loadedData;
+252:     
+253:     if (CONFIG.DEBUG) {
+254:       console.log(`Data loaded from ${filename}: ${JSON.stringify(dataStore)}`);
+255:     }
+256:     
+257:     callback(null, { 
+258:       success: true, 
+259:       filename, 
+260:       data: dataStore 
+261:     });
+262:   }, 1000);
+263: }
+264: 
+265: /**
+266:  * Filter data in the data store
+267:  * @param predicate - Function that returns true for items to keep
+268:  * @returns Filtered array of items
+269:  */
+270: function filterData(predicate: (item: any) => boolean): any[] {
+271:   if (dataStore.length === 0) {
+272:     console.log("No data to filter");
+273:     return [];
+274:   }
+275:   
+276:   const filtered = dataStore.filter(predicate);
+277:   
+278:   if (CONFIG.DEBUG) {
+279:     console.log(`Filtered data: ${JSON.stringify(filtered)}`);
+280:   }
+281:   
+282:   return filtered;
+283: }
+284: 
+285: /**
+286:  * Transform data in the data store
+287:  * @param transformer - Function that transforms each item
+288:  * @returns Array of transformed items
+289:  */
+290: function transformData<T>(transformer: (item: any) => T): T[] {
+291:   if (dataStore.length === 0) {
+292:     console.log("No data to transform");
+293:     return [];
+294:   }
+295:   
+296:   const transformed = dataStore.map(transformer);
+297:   
+298:   if (CONFIG.DEBUG) {
+299:     console.log(`Transformed data: ${JSON.stringify(transformed)}`);
+300:   }
+301:   
+302:   return transformed;
+303: }
+304: 
+305: /**
+306:  * Run an example demonstrating all functionality
+307:  */
+308: function runExample(): void {
+309:   // Add some sample data
+310:   add(10);
+311:   add("hello");
+312:   add([1, 2, 3]);
+313:   add({ name: "John", age: 30 });
+314:   
+315:   // Process all data
+316:   const results = processAllData();
+317:   console.log("Results:", results);
+318:   
+319:   // Find an item
+320:   const found = find("hello");
+321:   console.log("Found:", found);
+322:   
+323:   // Calculate statistics
+324:   const stats = calculateStats();
+325:   console.log("Statistics:", stats);
+326:   
+327:   // Filter data
+328:   const filtered = filterData(item => 
+329:     typeof item === "number" || Array.isArray(item)
+330:   );
+331:   console.log("Filtered:", filtered);
+332:   
+333:   // Transform data
+334:   const transformed = transformData((item: any) => {
+335:     if (typeof item === "number") {
+336:       return item * 10;
+337:     } else if (typeof item === "string") {
+338:       return item + "!";
+339:     } else {
+340:       return item;
+341:     }
+342:   });
+343:   console.log("Transformed:", transformed);
+344:   
+345:   // Demonstrate async operations
+346:   saveData("data.json", (err, result) => {
+347:     if (err) {
+348:       console.log("Error saving data:", err);
+349:     } else {
+350:       console.log("Save result:", result);
+351:       
+352:       clearData();
+353:       
+354:       loadData("data.json", (err, result) => {
+355:         if (err) {
+356:           console.log("Error loading data:", err);
+357:         } else {
+358:           console.log("Load result:", result);
+359:         }
+360:       });
+361:     }
+362:   });
+363: }
+364: 
+365: // Export public API
+366: export {
+367:   add,
+368:   processData,
+369:   processAllData,
+370:   find,
+371:   calculateStats,
+372:   clearData,
+373:   saveData,
+374:   loadData,
+375:   filterData,
+376:   transformData,
+377:   runExample,
+378:   // Types
+379:   Statistics,
+380:   SaveCallback,
+381:   LoadCallback
+382: };
+
+🤖 Claude: I've refactored the poorly-written-code.ts file to make it more readable and maintainable. Here's a summary of the improvements:
+
+### Major Improvements Made:
+
+1. **Documentation and Types**:
+   - Added comprehensive JSDoc comments for all functions
+   - Created proper TypeScript interfaces and type definitions
+   - Added explicit return types to all functions
+
+2. **Code Structure**:
+   - Renamed functions for consistency (e.g., `process_data` → `processData`, `calc_stats` → `calculateStats`)
+   - Used a configuration object instead of global variables
+   - Created a private data store variable instead of a global `data` array
+
+3. **Modern JavaScript Features**:
+   - Replaced for-loops with functional methods like `map`, `filter`, and `reduce`
+   - Used template literals instead of string concatenation
+   - Used arrow functions for callback clarity
+   - Used destructuring and shorthand object property syntax
+
+4. **Code Quality**:
+   - Extracted complex logic into separate helper functions (e.g., `processArray`)
+   - Used more precise conditionals (removed redundant `=== true` checks)
+   - Added proper error handling for async operations
+   - Used consistent formatting and spacing
+
+5. **API Design**:
+   - Created proper type definitions for callbacks (`SaveCallback`, `LoadCallback`)
+   - Added generics for more type-safe transformations
+   - Organized exports with clear categorization
+
+The refactored code is now more maintainable, follows modern TypeScript best practices, and provides better documentation for developers who need to work with it in the future.
+
+✅ Refactoring task completed!

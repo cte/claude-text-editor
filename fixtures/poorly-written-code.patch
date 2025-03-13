@@ -1,0 +1,527 @@
+1,2c1,6
+< // This file contains a bunch of functions for data processing
+< // Created on 3/13/2025
+---
+> /**
+>  * Data Processing Utilities
+>  * 
+>  * A collection of functions for managing and processing data.
+>  * Created on 3/13/2025
+>  */
+4,7c8,12
+< // Global variables
+< var data: any[] = [];
+< var DEBUG = true;
+< var MAX = 1000;
+---
+> // Configuration
+> const CONFIG = {
+>   DEBUG: true,
+>   MAX_ITEMS: 1000
+> };
+9,15c14,26
+< // Function to add data
+< function add(x: any) {
+<   // Push the data to the array
+<   data.push(x);
+<   // Log if debug is true
+<   if (DEBUG == true) {
+<     console.log("Added data: " + x);
+---
+> // Store data in a private variable
+> let dataStore: any[] = [];
+> 
+> /**
+>  * Adds an item to the data store
+>  * @param item - Any item to add to the data store
+>  * @returns boolean indicating success
+>  */
+> function add(item: any): boolean {
+>   dataStore.push(item);
+>   
+>   if (CONFIG.DEBUG) {
+>     console.log(`Added data: ${JSON.stringify(item)}`);
+17c28
+<   // Return success
+---
+>   
+21,24c32,43
+< // Function to process data
+< function process_data(d: any) {
+<   // Check if d is valid
+<   if (!d) {
+---
+> /**
+>  * Processes a data item based on its type
+>  * - Numbers: multiplied by 2
+>  * - Strings: converted to uppercase
+>  * - Arrays: numbers are summed, strings are concatenated
+>  * - Objects: keys are returned
+>  * 
+>  * @param data - The data to process
+>  * @returns The processed data or null if invalid
+>  */
+> function processData(data: any): any {
+>   if (!data) {
+29d47
+<   // Process the data
+31,48c49,63
+<   if (typeof d === "number") {
+<     // If it's a number, multiply by 2
+<     result = d * 2;
+<   } else if (typeof d === "string") {
+<     // If it's a string, convert to uppercase
+<     result = d.toUpperCase();
+<   } else if (Array.isArray(d)) {
+<     // If it's an array, sum all numbers or concatenate strings
+<     result = 0;
+<     for (let i = 0; i < d.length; i++) {
+<       if (typeof d[i] === "number") {
+<         result += d[i];
+<       } else if (typeof d[i] === "string") {
+<         if (result === 0) {
+<           result = d[i];
+<         } else {
+<           result += d[i];
+<         }
+---
+>   
+>   switch (typeof data) {
+>     case "number":
+>       result = data * 2;
+>       break;
+>       
+>     case "string":
+>       result = data.toUpperCase();
+>       break;
+>       
+>     default:
+>       if (Array.isArray(data)) {
+>         result = processArray(data);
+>       } else if (typeof data === "object") {
+>         result = Object.keys(data);
+50,53d64
+<     }
+<   } else {
+<     // If it's an object, return the keys
+<     result = Object.keys(d);
+56,58c67,68
+<   // Log the result if debug is true
+<   if (DEBUG === true) {
+<     console.log("Processed data. Result: " + result);
+---
+>   if (CONFIG.DEBUG) {
+>     console.log(`Processed data. Result: ${result}`);
+61d70
+<   // Return the result
+65,68c74,101
+< // Function to process all data
+< function processAllData() {
+<   // Check if there's data to process
+<   if (data.length === 0) {
+---
+> /**
+>  * Helper function to process array elements
+>  * @param arr - Array to process
+>  */
+> function processArray(arr: any[]): any {
+>   let result: any = 0;
+>   
+>   for (const item of arr) {
+>     if (typeof item === "number") {
+>       result += item;
+>     } else if (typeof item === "string") {
+>       if (result === 0) {
+>         result = item;
+>       } else {
+>         result += item;
+>       }
+>     }
+>   }
+>   
+>   return result;
+> }
+> 
+> /**
+>  * Process all items in the data store
+>  * @returns Array of processed items
+>  */
+> function processAllData(): any[] {
+>   if (dataStore.length === 0) {
+73,78c106
+<   // Process all data
+<   let results: any[] = [];
+<   for (let i = 0; i < data.length; i++) {
+<     let processed = process_data(data[i]);
+<     results.push(processed);
+<   }
+---
+>   const results = dataStore.map(item => processData(item));
+80,82c108,109
+<   // Log the results if debug is true
+<   if (DEBUG === true) {
+<     console.log("Processed all data. Results: " + results);
+---
+>   if (CONFIG.DEBUG) {
+>     console.log(`Processed all data. Results: ${JSON.stringify(results)}`);
+85d111
+<   // Return the results
+89,92c115,121
+< // Function to find data
+< function find(query: any) {
+<   // Check if there's data to search
+<   if (data.length === 0) {
+---
+> /**
+>  * Find an item in the data store
+>  * @param query - The item to find
+>  * @returns Object with index and value if found, null otherwise
+>  */
+> function find(query: any): { index: number, value: any } | null {
+>   if (dataStore.length === 0) {
+97,106c126,130
+<   // Search for the data
+<   for (let i = 0; i < data.length; i++) {
+<     if (data[i] === query) {
+<       // Log if debug is true
+<       if (DEBUG === true) {
+<         console.log("Found data at index " + i + ": " + data[i]);
+<       }
+<       
+<       // Return the data
+<       return { index: i, value: data[i] };
+---
+>   const index = dataStore.findIndex(item => item === query);
+>   
+>   if (index !== -1) {
+>     if (CONFIG.DEBUG) {
+>       console.log(`Found data at index ${index}: ${JSON.stringify(dataStore[index])}`);
+107a132,133
+>     
+>     return { index, value: dataStore[index] };
+110,112c136,137
+<   // Log if debug is true
+<   if (DEBUG === true) {
+<     console.log("Data not found: " + query);
+---
+>   if (CONFIG.DEBUG) {
+>     console.log(`Data not found: ${JSON.stringify(query)}`);
+115d139
+<   // Return null if not found
+119,122c143,156
+< // Function to calculate statistics
+< function calc_stats() {
+<   // Check if there's data to calculate
+<   if (data.length === 0) {
+---
+> /**
+>  * Calculate statistics for numeric values in the data store
+>  * @returns Statistics object or null if no data
+>  */
+> interface Statistics {
+>   sum: number;
+>   avg: number;
+>   min: number;
+>   max: number;
+>   count: number;
+> }
+> 
+> function calculateStats(): Statistics | null {
+>   if (dataStore.length === 0) {
+127,131c161
+<   // Calculate statistics
+<   let sum = 0;
+<   let min = Number.MAX_VALUE;
+<   let max = Number.MIN_VALUE;
+<   let numCount = 0;
+---
+>   const numberItems = dataStore.filter(item => typeof item === "number") as number[];
+133,143c163,170
+<   for (let i = 0; i < data.length; i++) {
+<     if (typeof data[i] === "number") {
+<       sum += data[i];
+<       if (data[i] < min) {
+<         min = data[i];
+<       }
+<       if (data[i] > max) {
+<         max = data[i];
+<       }
+<       numCount++;
+<     }
+---
+>   if (numberItems.length === 0) {
+>     return {
+>       sum: 0,
+>       avg: 0,
+>       min: 0,
+>       max: 0,
+>       count: 0
+>     };
+146,147c173,177
+<   // Calculate average
+<   let avg = numCount > 0 ? sum / numCount : 0;
+---
+>   const sum = numberItems.reduce((acc, val) => acc + val, 0);
+>   const min = Math.min(...numberItems);
+>   const max = Math.max(...numberItems);
+>   const count = numberItems.length;
+>   const avg = sum / count;
+149,151c179,180
+<   // Log if debug is true
+<   if (DEBUG === true) {
+<     console.log("Statistics: sum=" + sum + ", avg=" + avg + ", min=" + min + ", max=" + max + ", count=" + numCount);
+---
+>   if (CONFIG.DEBUG) {
+>     console.log(`Statistics: sum=${sum}, avg=${avg}, min=${min}, max=${max}, count=${count}`);
+154,161c183
+<   // Return the statistics
+<   return {
+<     sum: sum,
+<     avg: avg,
+<     min: min,
+<     max: max,
+<     count: numCount
+<   };
+---
+>   return { sum, avg, min, max, count };
+164,167c186,191
+< // Function to clear data
+< function clearData() {
+<   // Clear the data
+<   data = [];
+---
+> /**
+>  * Clear all data from the data store
+>  * @returns boolean indicating success
+>  */
+> function clearData(): boolean {
+>   dataStore = [];
+169,170c193
+<   // Log if debug is true
+<   if (DEBUG === true) {
+---
+>   if (CONFIG.DEBUG) {
+174d196
+<   // Return success
+178,181c200,208
+< // Function to save data to a file
+< function saveData(filename: string, callback: Function) {
+<   // Check if there's data to save
+<   if (data.length === 0) {
+---
+> /**
+>  * Save data to a file (simulated)
+>  * @param filename - Name of the file to save to
+>  * @param callback - Function to call when save is complete
+>  */
+> type SaveCallback = (error: Error | null, result?: { success: boolean, filename: string }) => void;
+> 
+> function saveData(filename: string, callback: SaveCallback): void {
+>   if (dataStore.length === 0) {
+183c210
+<     callback(new Error("No data to save"), null);
+---
+>     callback(new Error("No data to save"));
+187,188c214
+<   // Convert data to JSON
+<   let jsonData;
+---
+>   let jsonData: string;
+190c216
+<     jsonData = JSON.stringify(data);
+---
+>     jsonData = JSON.stringify(dataStore);
+192,193c218,220
+<     console.log("Error converting data to JSON: " + err);
+<     callback(err, null);
+---
+>     const error = err instanceof Error ? err : new Error(String(err));
+>     console.log(`Error converting data to JSON: ${error.message}`);
+>     callback(error);
+199,201c226,227
+<     // Log if debug is true
+<     if (DEBUG === true) {
+<       console.log("Data saved to " + filename + ": " + jsonData);
+---
+>     if (CONFIG.DEBUG) {
+>       console.log(`Data saved to ${filename}: ${jsonData}`);
+204,205c230
+<     // Call the callback
+<     callback(null, { success: true, filename: filename });
+---
+>     callback(null, { success: true, filename });
+209,210c234,244
+< // Function to load data from a file
+< function loadData(filename: string, callback: Function) {
+---
+> /**
+>  * Load data from a file (simulated)
+>  * @param filename - Name of the file to load from
+>  * @param callback - Function to call when load is complete
+>  */
+> type LoadCallback = (
+>   error: Error | null, 
+>   result?: { success: boolean, filename: string, data: any[] }
+> ) => void;
+> 
+> function loadData(filename: string, callback: LoadCallback): void {
+214,217c248
+<     let loadedData = [];
+<     for (let i = 0; i < 10; i++) {
+<       loadedData.push(Math.floor(Math.random() * 100));
+<     }
+---
+>     const loadedData = Array.from({ length: 10 }, () => Math.floor(Math.random() * 100));
+220c251
+<     data = loadedData;
+---
+>     dataStore = loadedData;
+222,224c253,254
+<     // Log if debug is true
+<     if (DEBUG === true) {
+<       console.log("Data loaded from " + filename + ": " + JSON.stringify(data));
+---
+>     if (CONFIG.DEBUG) {
+>       console.log(`Data loaded from ${filename}: ${JSON.stringify(dataStore)}`);
+227,228c257,261
+<     // Call the callback
+<     callback(null, { success: true, filename: filename, data: data });
+---
+>     callback(null, { 
+>       success: true, 
+>       filename, 
+>       data: dataStore 
+>     });
+232,235c265,271
+< // Function to filter data
+< function filterData(predicate: Function) {
+<   // Check if there's data to filter
+<   if (data.length === 0) {
+---
+> /**
+>  * Filter data in the data store
+>  * @param predicate - Function that returns true for items to keep
+>  * @returns Filtered array of items
+>  */
+> function filterData(predicate: (item: any) => boolean): any[] {
+>   if (dataStore.length === 0) {
+240,246c276
+<   // Filter the data
+<   let filtered = [];
+<   for (let i = 0; i < data.length; i++) {
+<     if (predicate(data[i])) {
+<       filtered.push(data[i]);
+<     }
+<   }
+---
+>   const filtered = dataStore.filter(predicate);
+248,250c278,279
+<   // Log if debug is true
+<   if (DEBUG === true) {
+<     console.log("Filtered data: " + JSON.stringify(filtered));
+---
+>   if (CONFIG.DEBUG) {
+>     console.log(`Filtered data: ${JSON.stringify(filtered)}`);
+253d281
+<   // Return the filtered data
+257,260c285,291
+< // Function to transform data
+< function transformData(transformer: Function) {
+<   // Check if there's data to transform
+<   if (data.length === 0) {
+---
+> /**
+>  * Transform data in the data store
+>  * @param transformer - Function that transforms each item
+>  * @returns Array of transformed items
+>  */
+> function transformData<T>(transformer: (item: any) => T): T[] {
+>   if (dataStore.length === 0) {
+265,269c296
+<   // Transform the data
+<   let transformed = [];
+<   for (let i = 0; i < data.length; i++) {
+<     transformed.push(transformer(data[i]));
+<   }
+---
+>   const transformed = dataStore.map(transformer);
+271,273c298,299
+<   // Log if debug is true
+<   if (DEBUG === true) {
+<     console.log("Transformed data: " + JSON.stringify(transformed));
+---
+>   if (CONFIG.DEBUG) {
+>     console.log(`Transformed data: ${JSON.stringify(transformed)}`);
+276d301
+<   // Return the transformed data
+280,282c305,309
+< // Example usage
+< function runExample() {
+<   // Add some data
+---
+> /**
+>  * Run an example demonstrating all functionality
+>  */
+> function runExample(): void {
+>   // Add some sample data
+288,289c315,316
+<   // Process the data
+<   let results = processAllData();
+---
+>   // Process all data
+>   const results = processAllData();
+292,293c319,320
+<   // Find data
+<   let found = find("hello");
+---
+>   // Find an item
+>   const found = find("hello");
+297c324
+<   let stats = calc_stats();
+---
+>   const stats = calculateStats();
+301,303c328,330
+<   let filtered = filterData(function(item: any) {
+<     return typeof item === "number" || Array.isArray(item);
+<   });
+---
+>   const filtered = filterData(item => 
+>     typeof item === "number" || Array.isArray(item)
+>   );
+307c334
+<   let transformed = transformData(function(item: any) {
+---
+>   const transformed = transformData((item: any) => {
+318,319c345,346
+<   // Save data
+<   saveData("data.json", function(err: Error | null, result: any) {
+---
+>   // Demonstrate async operations
+>   saveData("data.json", (err, result) => {
+325d351
+<       // Clear data
+328,329c354
+<       // Load data
+<       loadData("data.json", function(err: Error | null, result: any) {
+---
+>       loadData("data.json", (err, result) => {
+340c365
+< // Export functions
+---
+> // Export public API
+343c368
+<   process_data,
+---
+>   processData,
+346c371
+<   calc_stats,
+---
+>   calculateStats,
+352c377,381
+<   runExample
+---
+>   runExample,
+>   // Types
+>   Statistics,
+>   SaveCallback,
+>   LoadCallback
